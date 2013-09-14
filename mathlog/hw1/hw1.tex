@@ -1,0 +1,123 @@
+\documentclass[10pt]{article}
+\usepackage[russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{enumerate}
+\usepackage[margin=2cm]{geometry}
+
+\begin{document}
+
+\title{Домашняя работа 1}
+\author{Антон Афанасьев}
+\maketitle
+
+\begin{enumerate}[1]
+
+\item Тавтологии
+
+\begin{enumerate}
+\item $(a \land (b \lor c)) \leftrightarrow (a \land b) \lor (a \land c)$
+	\begin{itemize}
+		\item[] $b=0:$
+		\begin{itemize}
+			\item[] $(a \land c) \leftrightarrow (a \land c) = 1$
+		\end{itemize}
+		\item[] $b=1:$
+		\begin{itemize}
+			\item[] $a \leftrightarrow a \lor (a \land c) = a \leftrightarrow a = 1$
+		\end{itemize}
+	\end{itemize}
+	
+\item $(a \to b) \leftrightarrow (\neg b \to \neg a) = (\neg a \lor b) \leftrightarrow (b \lor \neg a) = 1$
+
+\item $(a \to b \land c) \leftrightarrow ((a \to b) \land (a \to c)) = (\neg a \lor (b \land c)) \leftrightarrow ((\neg a \lor b) \land (\neg a \lor c)) = (\neg a \lor (b \land c)) \leftrightarrow (\neg a \lor (b \land c)) = 1$
+
+\item $(a \lor b \to c) \leftrightarrow ((a \to c) \lor (b \to c))$
+	\begin{itemize}
+		\item[] $a=0, b=1, c=0:$
+		\begin{itemize}
+			\item[] $(1 \to 0) \leftrightarrow ((0 \to 0) \lor (1 \to 0)) = 0 \leftrightarrow 1 = 0$
+		\end{itemize}
+		Формула не является тавтологией.
+	\end{itemize}
+
+\item $(((a \leftrightarrow b) \leftrightarrow b) \leftrightarrow (c \leftrightarrow a)) \leftrightarrow c$
+	\begin{itemize}
+		\item[] $(a \leftrightarrow b) \leftrightarrow b = (a \land b \lor \neg a \land \neg b) \leftrightarrow b = (a \land b \lor \neg a \land \neg b) \land b \lor \neg (a \land b \lor \neg a \land \neg b) \land \neg b = a \land b \lor (\neg a \lor \neg b) \land (a \lor b) \land \neg b = a \land b \lor (\neg a \lor \neg b) \land a \land \neg b = a \land b \lor a \land \neg b = a \land (b \lor \neg b) = a$
+	\end{itemize}
+
+\item[] $(((a \leftrightarrow b) \leftrightarrow b) \leftrightarrow (c \leftrightarrow a)) \leftrightarrow c = (a \leftrightarrow (c \leftrightarrow a)) \leftrightarrow c = c \leftrightarrow c = 1$
+\end{enumerate}
+
+\item Не тавтологии
+
+\begin{enumerate}
+\item $((b \to c) \lor b) \land a \to c$
+	\begin{enumerate}
+		\item[] $a=1, b=1, c=0$
+		\begin{enumerate}
+			\item[] $((1 \to 0) \lor 1) \land 1 \to 0 = 1 \to 0 = 0$
+		\end{enumerate}
+	\end{enumerate}
+
+\item $(((a \land b) \to c) \to c) \lor \neg a$
+	\begin{enumerate}
+		\item[] $a=1:$
+		\begin{enumerate}
+			\item[] $(((1 \land b) \to c) \to c) \lor \neg 1 = (b \to c) \to c$
+			\item[] $b=0, c=0: (0 \to 0) \to 0 = 1 \to 0 = 0$
+		\end{enumerate}
+	\end{enumerate}
+	
+\item $((a \leftrightarrow b) \leftrightarrow b) \leftrightarrow (c \leftrightarrow a)$
+	\begin{enumerate}
+	\item[] Используя тождество $(a \leftrightarrow b) \leftrightarrow b = a$ из 1.e.
+	\item[] $((a \leftrightarrow b) \leftrightarrow b) \leftrightarrow (c \leftrightarrow a) = a \leftrightarrow (c \leftrightarrow a) = c$
+	\item[] $\Rightarrow$ Формула ложна при $c=0$.
+	\end{enumerate}
+\end{enumerate}
+
+\item $F(a, c, b) = (\neg a \lor b \land c) \land (a \lor b \lor c)$
+	\begin{enumerate}
+	\item[] $F(a, b, 1) = \neg a \lor b = a \to b$
+	\item[] $F(1, b, c) = b \land c$
+	\item[] $F(0, b, c) = b \lor c$
+	\item[] $F(a, 0, 1) = \neg a$
+	\item[] $F(1, 1, 1) = 1$
+	\item[] $F(0, 0, 0) = 0$
+	\end{enumerate}
+\end{enumerate}
+
+\begin{enumerate}[i]
+\item Для любого $n$ 
+$$F_n(a_1^n, a_2^n, \ldots a_n^n, x_0^n, \ldots x_{2^n-1}^n) = \bigvee_{i=0}^{2^n-1} Q_i \land x_i^n$$
+Где $$Q_i = \bigwedge_{j=1}^n \begin{cases} 
+a_j^n,&\text{если $j$-ый бит $i$ равен $1$}\\
+\neg a_j^n,&\text{если $j$-ый бит $i$ равен $0$} 
+\end{cases}$$
+$Q_i$ соответствует одному возможному вектору аргументов и истинно только на нем. Значение $x_i^n$ задает значение которое вернет функция на наборе аргументов, соответствующем $Q_i$. Фиксируя $x_i^n$ можно получить любую функцию от $n$ аргументов.
+
+Функция для $n=2$:
+$$
+F_2(a_1^2, a_2^2, x_0^2, x_1^2, x_2^2, x_3^2)= \\
+(\neg a_1^2 \land \neg a_2^2) \land x_0^2 \lor \\
+(\neg a_1^2 \land a_2^2) \land x_1^2 \lor \\
+(a_1^2 \land \neg a_2^2) \land x_2^2 \lor \\
+(a_1^2 \land a_2^2) \land x_3^2
+$$
+
+Построим функцию $G$ от бесконечного числа аргументов
+$$G = \bigvee_{i=1}^{\infty} F_i$$
+Из такой функции можно получить любую $F_i$ беря за 0 аргументы, соответствующие другим $F_j$. Следовательно, из $G$ можно получить любую функцию $n$ переменных.
+
+\item Формула, составленная из пропозициональных переменных и связок $\leftrightarrow$ является тавтологией тогда и только тогда, когда каждая переменная входит в формулу четное число раз.
+
+Рассмотрим некоторую формулу, составленную из переменных и связок $\leftrightarrow$. Так как операция эквивалентности ассоциативна и коммутативна можно переставлять переменные как угодно. Переставим элементы так, чтобы одинаковые переменные шли подряд: $a \leftrightarrow a \leftrightarrow \ldots \leftrightarrow a \leftrightarrow b \leftrightarrow b \ldots$. По правилу $a \leftrightarrow a = 1$ сокращаем пары одинаковых элементов пока можем. Т.к. $1 \leftrightarrow a = a$ единицы ни на что не влияют, и их можно просто отбросить.\\
+Если каждая переменная встречалась четное число раз, то они все сократятся и останется 1, а значит формула общезначима.\\
+Пусть теперь есть переменные которых нечетное число. В таком случае после сокращения останется выражение, в котором каждая такая переменная встречается один раз: $ a \leftrightarrow b \leftrightarrow c \leftrightarrow \ldots \leftrightarrow z$. Тогда можно взять первую переменную равной 0, а остальные 1. Т.к. $1 \leftrightarrow 1 = 1$, а $0 \leftrightarrow 1 = 0$ формула с такой интерпретацией ложна, а значит не является общезначимой.\\
+Т.к. множества ``формулы из переменных и связок $\leftrightarrow$ которые не содержат переменных, входящих в формулу нечетное число раз'' и ``формулы из переменных и связок $\leftrightarrow$ которые содержат хотя бы одну переменную, входящую нечетное число раз'' образуют разбиение множества всех рассматриваемых формул, это работает и в другую сторону.
+\end{enumerate}
+
+\end{document}
