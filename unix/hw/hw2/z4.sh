@@ -1,8 +1,14 @@
 #!/bin/bash
 
-ps -p $$
-exit 13
+cat <<EOF >>/etc/profile
 
-shellName=`ps -p $$ h | grep -o --regex "-.*$"`
-echo $shellName
-
+if [ "\$(id -u)" = "0" ]; then
+    echo "Welcome home, Master!"
+else
+    echo "Hi, \$USER!"
+fi
+ 
+if  [ ! "\$BASH" -o "\$BASH" = "/bin/sh" ]; then
+    echo "All hope abandon, ye who enter in."
+fi
+EOF
