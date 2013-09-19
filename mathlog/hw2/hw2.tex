@@ -1,0 +1,124 @@
+\documentclass[10pt]{article}
+\usepackage[a2paper,margin=1cm]{geometry}
+\usepackage[russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{enumerate}
+
+\input{commands}
+
+\begin{document}
+
+\title{Домашняя работа 2}
+\author{Антон Афанасьев}
+\maketitle
+
+\begin{enumerate}[(a)]
+
+\item % (a)
+\begin{center}
+	\R{$0 \vdash 0$}
+	\botE{$ 0 \vdash A$}
+	\toI{$\vdash 0 \to A$}
+	\DisplayProof
+\end{center}
+
+\item % (b)
+\begin{center}
+	\R{$A \lor ( A \land  B) \vdash A \lor ( A \land  B)$}
+	\R{$A \lor ( A \land  B), A \vdash A$}
+	\R{$A \lor ( A \land  B), A \land B \vdash A \land B$}
+	\andEl{$A \lor ( A \land  B), A \land B \vdash A$}
+	
+	\orE{$A \lor ( A \land  B) \vdash A$}
+	\toI{$\vdash A \lor ( A \land  B) \to A$}
+	
+	\R{$A \vdash A$}
+	\orIl{$A \vdash A \lor (A \land B)$}
+	\toI{$\vdash A \to A \lor (A \land B)$}
+	
+	\andI{$\vdash A \lor ( A \land  B) \iff A$}
+	
+	\DisplayProof
+\end{center}
+
+\item % (g)
+\begin{center}
+	\R{$A, A \to 0 \vdash A$}
+	\R{$A, A \to 0 \vdash A \to 0$}
+	\toE{$A, A \to 0 \vdash 0$}
+	\toI{$A \vdash (A \to 0) \to 0$}
+	\toI{$\vdash A \to ((A \to 0) \to 0)$}
+	
+	\R{$(A \to 0) \to 0, A \vdash A$}
+	
+	\R{$(A \to 0) \to 0, A \to 0 \vdash (A \to 0) \to 0$}
+	\R{$(A \to 0) \to 0, A \to 0 \vdash A \to 0$}
+	\toE{$(A \to 0) \to 0, A \to 0 \vdash 0$}
+	\botE{$(A \to 0) \to 0, A \to 0 \vdash A$}
+	
+	\case{$(A \to 0) \to 0 \vdash A$}
+	\toI{$\vdash ((A \to 0) \to 0) \to A$}
+	
+	\andI{$A \iff (A \to 0) \to 0$}
+	\DisplayProof
+	
+\end{center}
+
+\item % (h)
+\begin{center}
+	\R{$(A \lor B) \to 0, A \vdash A$}
+	\orIl{$(A \lor B) \to 0, A \vdash A \lor B$}
+	\R{$(A \lor B) \to 0, A \vdash (A \lor B) \to 0$}
+	\toE{$(A \lor B) \to 0, A \vdash 0$}
+	\toI{$(A \lor B) \to 0 \vdash A \to 0$}
+	
+	\R{$(A \lor B) \to 0, B \vdash B$}
+	\orIr{$(A \lor B) \to 0, B \vdash A \lor B$}
+	\R{$(A \lor B) \to 0, B \vdash (A \lor B) \to 0$}
+	\toE{$(A \lor B) \to 0, B \vdash 0$}
+	\toI{$(A \lor B) \to 0 \vdash B \to 0$}
+	
+	\andI{$(A \lor B) \to 0 \vdash (A \to 0) \land (B \to 0)$}
+	\toI{$\vdash ((A \lor B) \to 0) \to (A \to 0) \land (B \to 0)$}
+	
+	\R{$(A \to 0) \land (B \to 0), A \lor B \vdash A \lor B$}
+	
+	\R{$(A \to 0) \land (B \to 0), A \lor B, A \vdash (A \to 0) \land (B \to 0)$}
+	\andEl{$(A \to 0) \land (B \to 0), A \lor B, A \vdash A \to 0$}
+	\R{$(A \to 0) \land (B \to 0), A \lor B, A \vdash A$}
+	\toE{$(A \to 0) \land (B \to 0), A \lor B, A \vdash 0$}
+	
+	\R{$(A \to 0) \land (B \to 0), A \lor B, B \vdash (A \to 0) \land (B \to 0)$}
+	\andEr{$(A \to 0) \land (B \to 0), A \lor B, B \vdash B \to 0$}
+	\R{$(A \to 0) \land (B \to 0), A \lor B, B \vdash B$}
+	\toE{$(A \to 0) \land (B \to 0), A \lor B, B \vdash 0$}
+	
+	\orE{$(A \to 0) \land (B \to 0), A \lor B \vdash 0$}
+	\toI{$(A \to 0) \land (B \to 0) \vdash (A \lor B) \to 0$}
+	\toI{$\vdash (A \to 0) \land (B \to 0) \to (A \lor B) \to 0$}
+	
+	\andI{$\vdash ((A \lor B) \to 0) \iff (A \to 0) \land (B \to 0)$}
+	\DisplayProof
+\end{center}
+
+\item % (k)
+\begin{center}
+	\R{$(A \to B) \to A, A \to 0 \vdash (A \to B) \to A$}
+	\R{$(A \to B) \to A, A \to 0, A \vdash A \to 0$}
+	\R{$(A \to B) \to A, A \to 0, A \vdash A$}
+	\toE{$(A \to B) \to A, A \to 0, A \vdash 0$}
+	\botE{$(A \to B) \to A, A \to 0, A \vdash B$}
+	\toI{$(A \to B) \to A, A \to 0 \vdash A \to B$}
+	\toE{$(A \to B) \to A, A \to 0 \vdash A$}
+	
+	\R{$(A \to B) \to A, A \vdash A$}
+	\case{$(A \to B) \to A \vdash A$}
+	\toI{$\vdash ((A \to B) \to A) \to A$}
+	\DisplayProof
+\end{center}
+
+\end{enumerate}
+
+\end{document}
