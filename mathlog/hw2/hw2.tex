@@ -16,7 +16,9 @@
 
 \begin{enumerate}[(a)]
 
-\item % (a)
+\bfseries
+\item $\vdash 0 \to A$ % (a)
+\mdseries
 \begin{center}
 	\R{$0 \vdash 0$}
 	\botE{$ 0 \vdash A$}
@@ -24,7 +26,9 @@
 	\DisplayProof
 \end{center}
 
-\item % (b)
+\bfseries
+\item $\vdash A \lor ( A \land  B) \iff A$ % (b)
+\mdseries
 \begin{center}
 	\R{$A \lor ( A \land  B) \vdash A \lor ( A \land  B)$}
 	\R{$A \lor ( A \land  B), A \vdash A$}
@@ -43,7 +47,107 @@
 	\DisplayProof
 \end{center}
 
-\item % (g)
+\bfseries   % (c)
+\item $A \land (A \lor B) \iff A$
+\mdseries
+\begin{center}
+	\R{$A \land (A \lor B) \vdash A \land (A \lor B)$}
+	\andEl{$A \land (A \lor B) \vdash A$}
+	\toI{$ \vdash A \land (A \lor B) \to A$}
+	
+	\R{$ A \vdash A$}
+	\R{$ A \vdash A$}
+	\orIl{$A \vdash A \lor B$}
+	\andI{$A \vdash A \land (A \lor B)$}
+	\toI{$ \vdash A \to (A \land (A \lor B))$}
+	
+	\andI{$A \land (A \lor B) \iff A$}
+	\DisplayProof
+\end{center}
+
+\bfseries   % (d)
+\item $(A \lor B \to C) \iff (A \to C) \land (B \to C)$
+Неверно
+\mdseries
+
+\bfseries   % (e)
+\item $(A \to B \land C) \iff (A \to B) \land (A \to C)$
+\mdseries
+\begin{center}
+
+	\R{$A \to B \land C, A \vdash A \to B \land C$}
+	\R{$A \to B \land C, A \vdash A$}
+	\toE{$A \to B \land C, A \vdash B \land C$}
+	\andEl{$A \to B \land C, A \vdash B$}
+	\toI{$A \to B \land C \vdash A \to B$}
+	
+	\R{$A \to B \land C, A \vdash A \to B \land C$}
+	\R{$A \to B \land C, A \vdash A$}
+	\toE{$A \to B \land C, A \vdash B \land C$}
+	\andEr{$A \to B \land C, A \vdash C$}
+	\toI{$A \to B \land C \vdash A \to C$}
+	
+	\andI{$A \to B \land C \vdash (A \to B) \land (A \to C)$}
+	\toI{$\vdash (A \to B \land C) \to (A \to B) \land (A \to C)$}
+	\DisplayProof
+	
+	\R{$(A \to B) \land (A \to C), A \vdash (A \to B) \land (A \to C)$}
+	\andEl{$(A \to B) \land (A \to C), A \vdash A \to B$}
+	\R{$(A \to B) \land (A \to C), A \vdash A$}
+	\toE{$(A \to B) \land (A \to C), A \vdash B$}
+	
+	\R{$(A \to B) \land (A \to C), A \vdash (A \to B) \land (A \to C)$}
+	\andEr{$(A \to B) \land (A \to C), A \vdash A \to C$}
+	\R{$(A \to B) \land (A \to C), A \vdash A$}
+	\toE{$(A \to B) \land (A \to C), A \vdash C$}
+	
+	\andI{$(A \to B) \land (A \to C), A \vdash B \land C$}
+	\toI{$(A \to B) \land (A \to C) \vdash A \to B \land C$}
+	\toI{$\vdash (A \to B) \land (A \to C) \to (A \to B \land C)$}
+	\DisplayProof
+\end{center}
+
+\bfseries
+\item $\lnot (A \lor B) \iff \lnot A \land \lnot B$
+\mdseries
+\begin{center}
+	\R{$(A \lor B) \to 0, A \vdash (A \lor B) \to 0$}
+	\R{$(A \lor B) \to 0, A \vdash A$}
+	\orIl{$(A \lor B) \to 0, A \vdash A \lor B$}
+	\toE{$(A \lor B) \to 0, A \vdash 0$}
+	\toI{$(A \lor B) \to 0 \vdash A \to 0$}
+	
+	\R{$(A \lor B) \to 0, B \vdash (A \lor B) \to 0$}
+	\R{$(A \lor B) \to 0, B \vdash B$}
+	\orIr{$(A \lor B) \to 0, B \vdash A \lor B$}
+	\toE{$(A \lor B) \to 0, B \vdash 0$}
+	\toI{$(A \lor B) \to 0 \vdash B \to 0$}
+	
+	\andI{$(A \lor B) \to 0 \vdash (A \to 0) \land (B \to 0)$}
+	\toI{$\vdash ((A \lor B) \to 0) \to (A \to 0) \land (B \to 0)$}
+	\DisplayProof
+	
+	\R{$(A \to 0) \land (B \to 0), A \lor B \vdash A \lor B$}
+	
+	\R{$(A \to 0) \land (B \to 0), A \lor B, A \vdash (A \to 0) \land (B \to 0)$}
+	\andEl{$(A \to 0) \land (B \to 0), A \lor B, A \vdash A \to 0$}
+	\R{$(A \to 0) \land (B \to 0), A \lor B, A, \vdash A$}
+	\toE{$(A \to 0) \land (B \to 0), A \lor B, A \vdash 0$}
+	
+	\R{$(A \to 0) \land (B \to 0), A \lor B, B \vdash (A \to 0) \land (B \to 0)$}
+	\andEr{$(A \to 0) \land (B \to 0), A \lor B, B \vdash B \to 0$}
+	\R{$(A \to 0) \land (B \to 0), A \lor B, B, \vdash B$}
+	\toE{$(A \to 0) \land (B \to 0), A \lor B, B \vdash 0$}
+	
+	\orE{$(A \to 0) \land (B \to 0), A \lor B \vdash 0$}
+	\toI{$(A \to 0) \land (B \to 0) \vdash (A \lor B) \to 0$}
+	\toI{$\vdash (A \to 0) \land (B \to 0) \to ((A \lor B) \to 0)$}
+	\DisplayProof
+\end{center}
+
+\bfseries
+\item $A \iff (A \to 0) \to 0$ % (g)
+\mdseries
 \begin{center}
 	\R{$A, A \to 0 \vdash A$}
 	\R{$A, A \to 0 \vdash A \to 0$}
@@ -66,7 +170,9 @@
 	
 \end{center}
 
-\item % (h)
+\bfseries
+\item $\vdash ((A \lor B) \to 0) \iff (A \to 0) \land (B \to 0)$ % (h)
+\mdseries
 \begin{center}
 	\R{$(A \lor B) \to 0, A \vdash A$}
 	\orIl{$(A \lor B) \to 0, A \vdash A \lor B$}
@@ -82,6 +188,7 @@
 	
 	\andI{$(A \lor B) \to 0 \vdash (A \to 0) \land (B \to 0)$}
 	\toI{$\vdash ((A \lor B) \to 0) \to (A \to 0) \land (B \to 0)$}
+	\DisplayProof
 	
 	\R{$(A \to 0) \land (B \to 0), A \lor B \vdash A \lor B$}
 	
@@ -98,12 +205,64 @@
 	\orE{$(A \to 0) \land (B \to 0), A \lor B \vdash 0$}
 	\toI{$(A \to 0) \land (B \to 0) \vdash (A \lor B) \to 0$}
 	\toI{$\vdash (A \to 0) \land (B \to 0) \to (A \lor B) \to 0$}
+	\DisplayProof
 	
+	\iffalse
+	\predet{$\vdash ((A \lor B) \to 0) \to (A \to 0) \land (B \to 0)$}
+	\predet{$\vdash (A \to 0) \land (B \to 0) \to (A \lor B) \to 0$}
 	\andI{$\vdash ((A \lor B) \to 0) \iff (A \to 0) \land (B \to 0)$}
+	\DisplayProof
+	\fi
+\end{center}
+
+\bfseries % (i)
+\item $(A \to B) \iff (\lnot B \to \lnot A)$
+\mdseries
+\begin{center}
+	\R{$A \to B, B \to 0, A \vdash B \to 0$}
+	\R{$A \to B, B \to 0, A \vdash A \to B$}
+	\R{$A \to B, B \to 0, A \vdash A$}
+	\toE{$A \to B, B \to 0, A \vdash B$}
+	\toE{$A \to B, B \to 0, A \vdash 0$}
+	\toI{$A \to B, B \to 0 \vdash A \to 0$}
+	\toI{$A \to B \vdash (B \to 0) \to (A \to 0)$}
+	\toI{$\vdash (A \to B) \to ((B \to 0) \to (A \to 0))$}
+	\DisplayProof
+	
+	\R{$(B \to 0) \to (A \to 0), A, B \vdash B$}
+	\R{$(B \to 0) \to (A \to 0), A, B \to 0 \vdash (B \to 0) \to (A \to 0)$}
+	\R{$(B \to 0) \to (A \to 0), A, B \to 0 \vdash B \to 0$}
+	\toE{$(B \to 0) \to (A \to 0), A, B \to 0 \vdash A \to 0$}
+	\R{$(B \to 0) \to (A \to 0), A, B \to 0 \vdash A$}
+	\toE{$(B \to 0) \to (A \to 0), A, B \to 0 \vdash 0$}
+	\botE{$(B \to 0) \to (A \to 0), A, B \to 0 \vdash B$}
+	\case{$(B \to 0) \to (A \to 0), A \vdash B$}
+	\toI{$(B \to 0) \to (A \to 0) \vdash A \to B$}
+	\toI{$\vdash ((B \to 0) \to (A \to 0)) \to (A \to B)$}
 	\DisplayProof
 \end{center}
 
-\item % (k)
+\bfseries % (j)
+\item $(A \to B) \lor (B \to A)$
+\mdseries
+\begin{center}
+	\R{$A, B \vdash A$}
+	\toI{$A \vdash B \to A$}
+	\orIr{$A \vdash (A \to B) \lor (B \to A)$}
+	
+	\R{$A \to 0, A \vdash A \to 0$}
+	\R{$A \to 0, A \vdash A$}
+	\toE{$A \to 0, A \vdash 0$}
+	\botE{$A \to 0, A \vdash B$}
+	\toI{$A \to 0 \vdash A \to B$}
+	\orIl{$A \to 0 \vdash (A \to B) \lor (B \to A)$}
+	\case{$\vdash (A \to B) \lor (B \to A)$}
+	\DisplayProof	
+\end{center}
+
+\bfseries % (k)
+\item $\vdash ((A \to B) \to A) \to A$ 
+\mdseries
 \begin{center}
 	\R{$(A \to B) \to A, A \to 0 \vdash (A \to B) \to A$}
 	\R{$(A \to B) \to A, A \to 0, A \vdash A \to 0$}
