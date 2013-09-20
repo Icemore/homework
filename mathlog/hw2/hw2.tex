@@ -1,5 +1,5 @@
 \documentclass[10pt]{article}
-\usepackage[a2paper,margin=1cm]{geometry}
+\usepackage[a2paper,margin=0.5cm]{geometry}
 \usepackage[russian]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb}
@@ -14,8 +14,54 @@
 \author{Антон Афанасьев}
 \maketitle
 
-\begin{enumerate}[(a)]
+\begin{enumerate}[1.]
 
+\item % 1.
+Известно, что набор связок $\{\lnot, \lor\}$ полон. Покажем, что эти связки выражаются через $\{ \to, 0\}$.\\
+$\lnot a = a \to 0$\\
+$a \lor b = (a \to 0) \to b$\\
+$\Rightarrow$ Набор связок $\{ \to, 0\}$ полон.
+
+\item % 2.
+$\bar f(x_1, \ldots, x_k) = \lnot f(\lnot x_1, \ldots, \lnot x_k)$
+\begin{itemize}
+	\item Пусть $f$ не сохраняет 0, тогда $\bar f$ не сохраняет 1.\\
+	$f(0, \ldots, 0) = 1$\\
+	$\bar f(1, \ldots, 1) = \lnot f(0, \ldots, 0) = 0$
+	
+	\item Пусть $f$ не сохраняет 1, тогда $\bar f$ не сохраняет 0.\\
+	$f(1, \ldots, 1) = 0$\\
+	$\bar f(0, \ldots, 0) = \lnot f(1, \ldots, 1) = 1$
+	
+	\item Пусть $f$ немонотонная функция, тогда $\bar f$ тоже немонотонная.\\
+	$f(\ldots, x_{t-1}, 0, x_{t+1}, \ldots) = 1$\\
+	$f(\ldots, x_{t-1}, 1, x_{t+1}, \ldots) = 0$\\
+	$\bar f(\ldots, \lnot x_{t-1}, 0, \lnot x_{t+1}) = \lnot f(\ldots, x_{t-1}, 1, x_{t+1}, \ldots) = 1$\\
+	$\bar f(\ldots, \lnot x_{t-1}, 1, \lnot x_{t+1}) = \lnot f(\ldots, x_{t-1}, 0, x_{t+1}, \ldots) = 0$
+	
+	\item Пусть $f$ нелинейная фунцкия, тогда $\bar f$ тоже нелинейная.\\
+	$f(x_1, \ldots, x_k) = \ldots \oplus \alpha_i \land x_i \land \ldots \land x_j \oplus \ldots$\\
+	$\bar f(x_1, \ldots, x_k) = 1 \oplus \ldots \alpha_i \land (x_i \oplus 1) \land \ldots \land (x_j \oplus 1) \oplus \ldots = \ldots \oplus \alpha_i \land x_i \land \ldots \land x_j \oplus \ldots$\\
+	Т.к. $\land$ дистрибутивна относительно $\oplus$.
+	
+	\item Пусть $f$ не самодвойственная функция, тогда $\bar f$ тоже не самодвойственная.\\
+	$f(x_1, \ldots, x_k) \not = \lnot f(\lnot x_1, \ldots, \lnot x_k)$\\
+	$\bar f(x_1, \ldots, x_k) = \lnot f(\lnot x_1, \ldots, \lnot x_k) \not = f(x_1, \ldots, x_k) = \lnot \bar f (\lnot x_1, \ldots, \lnot x_k)$
+\end{itemize}
+
+Т. к. $f(x_1, \ldots, x_k) = \lnot \bar f(\lnot x_1, \ldots, \lnot x_k)$, эти рассуждения верны и в обратную сторону.\\
+Следовательно, по критерию Поста $\{f_1, \ldots, f_n\}$ полон тогда и только тогда, когда полон $\{\bar f_1, \ldots, \bar f_n\}$
+
+
+\item % 3.
+	\EM{$\Gamma \vdash A \lor \lnot A$}
+	\ax{$\Gamma, A \vdash B$}
+	\ax{$\Gamma, \lnot A \vdash B$}
+	\orE{$\Gamma \vdash B$}
+	\DisplayProof
+	
+\item % 4.
+\begin{enumerate}[(a)]
 \bfseries
 \item $\vdash 0 \to A$ % (a)
 \mdseries
@@ -278,6 +324,7 @@
 	\DisplayProof
 \end{center}
 
+\end{enumerate}
 \end{enumerate}
 
 \end{document}
