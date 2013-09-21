@@ -1,5 +1,5 @@
 \documentclass[10pt]{article}
-\usepackage[a2paper,margin=0.5cm]{geometry}
+\usepackage[a2paper,margin=0.2cm]{geometry}
 \usepackage[russian]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb}
@@ -113,8 +113,41 @@ $\bar f(x_1, \ldots, x_k) = \lnot f(\lnot x_1, \ldots, \lnot x_k)$
 
 \bfseries   % (d)
 \item $(A \lor B \to C) \iff (A \to C) \land (B \to C)$
-Неверно
 \mdseries
+\begin{center}
+	\R{$A \lor B \to C, A \vdash A \lor B \to C$}
+	\R{$A \lor B \to C, A \vdash A$}
+	\orIl{$A \lor B \to C, A \vdash A \lor B$}
+	\toE{$A \lor B \to C, A \vdash C$}
+	\toI{$A \lor B \to C \vdash  A \to C$}
+	
+	\R{$A \lor B \to C, B \vdash A \lor B \to C$}
+	\R{$A \lor B \to C, B \vdash B$}
+	\orIr{$A \lor B \to C, B \vdash A \lor B$}
+	\toE{$A \lor B \to C, B \vdash C$}
+	\toI{$A \lor B \to C \vdash  B \to C$}
+	
+	\andI{$A \lor B \to C \vdash (A \to C) \land (B \to C)$}
+	\toI{$\vdash (A \lor B \to C) \to (A \to C) \land (B \to C)$}
+	\DisplayProof
+
+	\R{$(A \to B) \land (B \to C), A \lor B \vdash A \lor B$}
+	
+	\R{$(A \to B) \land (B \to C), A \lor B, A \vdash (A \to B) \land (B \to C)$}
+	\andEl{$(A \to B) \land (B \to C), A \lor B, A \vdash A \to C$}
+	\R{$(A \to B) \land (B \to C), A \lor B, A \vdash A$}
+	\toE{$(A \to B) \land (B \to C), A \lor B, A \vdash C$}
+	
+	\R{$(A \to B) \land (B \to C), A \lor B, B \vdash (A \to B) \land (B \to C)$}
+	\andEr{$(A \to B) \land (B \to C), A \lor B, B \vdash B \to C$}
+	\R{$(A \to B) \land (B \to C), A \lor B, B \vdash B$}
+	\toE{$(A \to B) \land (B \to C), A \lor B, B \vdash C$}
+	
+	\orE{$(A \to B) \land (B \to C), A \lor B \vdash C$}
+	\toI{$(A \to B) \land (B \to C) \vdash A \lor B \to C$}
+	\toI{$\vdash ((A \to B) \land (B \to C)) \to (A \lor B \to C)$}
+	\DisplayProof
+\end{center}
 
 \bfseries   % (e)
 \item $(A \to B \land C) \iff (A \to B) \land (A \to C)$
