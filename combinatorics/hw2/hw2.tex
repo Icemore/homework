@@ -5,7 +5,7 @@
 \usepackage{amsmath}
 \usepackage{latexsym}
 \usepackage{enumitem}
-\usepackage[margin=2cm]{geometry}
+\usepackage[margin=1cm]{geometry}
 
 
 \newcommand{\rchoose}[2]{\left(\mkern-6mu \left({#1 \atop #2}\right) \mkern-6mu \right)}
@@ -16,6 +16,16 @@
 \title{Домашняя работа 2}
 \author{Антон Афанасьев}
 \maketitle
+
+\begin{enumerate}
+	\item[2.6] Докажем по индукции.\\
+	Для $n=2$ верно --- $|A_1 \cup A_2| = |A_1| + |A_2| - |A_1 \cap A_2|$.\\
+	Пусть верно для $n-1$. Тогда для $n$:
+	$$|A_1 \cup \ldots \cup A_{n-1} \cup A_n| = |A_1 \cup \ldots \cup A_{n-1}| + |A_n| - |(A_1 \cup \ldots \cup A_{n-1}) \cap A_n| = |A_1 \cup \ldots \cup A_{n-1}| + |A_n| - |(A_1 \cap A_n) \cup \ldots \cup (A_{n-1} \cap A_n)|$$
+	$$|A_1 \cup \ldots \cup A_{n-1}| = \sum_{i=1}^{n-1} |A_i| - \sum_{1 \leqslant  i < j \leqslant  n-1} {|A_i \cap A_j|} + \sum_{1 \leqslant  i < j < k \leqslant  n-1} |A_i \cap A_j \cap A_k| - \ldots (-1)^{n-2}|A_1 \cap \ldots \cap A_{n-1}|$$
+	$$|(A_1 \cap A_n) \cup \ldots \cup (A_{n-1} \cap A_n)| = \sum_{i=1}^{n-1} |A_i \cap A_n| - \sum_{1 \leqslant i < j \leqslant n-1} |A_i \cap A_j \cap A_n| \ldots (-1)^{n-2}|A_1 \cap \ldots \cap A_{n-1} \cap A_n|$$
+	$$\Rightarrow |A_1 \cup \ldots \cup A_{n-1} \cup A_n| = \sum_{i=1}^n |A_i| - \sum_{1 \leqslant i < j \leqslant n} |A_i \cap A_j| + \sum_{1 \leqslant  i < j < k \leqslant  n} |A_i \cap A_j \cap A_k| - \ldots (-1)^{n-1} |A_1 \cap \ldots \cap A_{n-1} \cap A_n|$$
+\end{enumerate}
 
 \begin{enumerate}[label*=3.\arabic*]
 	\item $P(n, k) = P(n-1, k) + kP(n-1, k-1)$
