@@ -1,0 +1,18 @@
+\usepackage{bussproofs}
+
+\renewcommand{\bot}{0}
+\renewcommand{\iff}{\leftrightarrow}
+\newcommand{\ax}[2]{\AxiomC{$#1$} }
+\newcommand{\R}[2]{\ax{}{} \RightLabel{$R$} \UnaryInfC{$#1$}}
+\newcommand{\EM}[2]{\ax{}{} \RightLabel{$E.M.$} \UnaryInfC{$#1$}}
+\newcommand{\toI}[2]{#2 \RightLabel{$\to intro$} \UnaryInfC{$#1$}}
+\newcommand{\toE}[2]{#2 \RightLabel{$\to elim$} \BinaryInfC{$#1$}}
+\newcommand{\andI}[2]{#2 \RightLabel{$\land intro$} \BinaryInfC{$#1$}}
+\newcommand{\andEl}[2]{#2 \RightLabel{$\land elim_1$} \UnaryInfC{$#1$}}
+\newcommand{\andEr}[2]{#2 \RightLabel{$\land elim_2$} \UnaryInfC{$#1$}}
+\newcommand{\orIl}[2]{#2 \RightLabel{$\lor intro_1$} \UnaryInfC{$#1$}}
+\newcommand{\orIr}[2]{#2 \RightLabel{$\lor intro_2$} \UnaryInfC{$#1$}}
+\newcommand{\orE}[2]{#2 \RightLabel{$\lor elim$} \TrinaryInfC{$#1$}}
+\newcommand{\botE}[2]{#2 \RightLabel{$\bot\ elim$} \UnaryInfC{$#1$}}
+\newcommand{\case}[2]{#2 \RightLabel{$cases$} \BinaryInfC{$#1$}}
+\newcommand{\step}[3]{ \csname#2\endcsname{#1}{#3} }

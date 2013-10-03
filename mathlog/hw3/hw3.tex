@@ -1,0 +1,43 @@
+\documentclass[10pt]{article}
+\usepackage[a2paper,margin=0.2cm]{geometry}
+\usepackage[russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{enumerate}
+
+\input{commands}
+
+\begin{document}
+
+\title{Домашняя работа 3}
+\author{Антон Афанасьев}
+\maketitle
+
+\begin{enumerate}
+\item
+	\begin{enumerate}
+		\item 
+			\AxiomC{$\Gamma \vdash a, b, \Delta$}
+			\UnaryInfC{$\Gamma, a \downarrow b \vdash \Delta$}
+			\DisplayProof\ \ \ 
+			\AxiomC{$\Gamma, a \vdash \Delta$}
+			\AxiomC{$\Gamma, b \vdash \Delta$}
+			\BinaryInfC{$\Gamma \vdash a \downarrow b, \Delta$}
+			\DisplayProof
+		\item
+			\AxiomC{$\Gamma \vdash a, \Delta$}
+			\AxiomC{$\Gamma \vdash b, \Delta$}
+			\BinaryInfC{$\Gamma, a \uparrow b \vdash \Delta$}
+			\DisplayProof\ \ \ 
+			\AxiomC{$\Gamma, a, b \vdash \Delta$}
+			\UnaryInfC{$\Gamma \vdash a \uparrow b, \Delta$}
+			\DisplayProof
+	\end{enumerate}
+	
+\item Поигрался =)
+
+\end{enumerate}
+
+\end{document}
