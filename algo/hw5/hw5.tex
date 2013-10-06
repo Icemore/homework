@@ -1,0 +1,38 @@
+\documentclass[10pt]{article}
+\usepackage[russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{enumitem}
+\usepackage[margin=2cm]{geometry}
+\usepackage{pseudocode}
+
+\begin{document}
+
+\title{Домашняя работа 5}
+\author{Антон Афанасьев}
+\maketitle
+
+\begin{enumerate}
+	\item Наихудший случай для быстрой сортировки.\\
+	Будем считать, что элементы массива -- различные числа от 1 до $n$. Пусть у нас есть массив, в котором на каждом шаге сортировки на месте $\left \lceil \frac{n}{2} \right \rceil$ стоит наибольший элемент. Тогда на каждом шаге сортировка будет рекурсивно запускаться на массиве размера $n-1$ и общая сумма будет квадратичной.\\
+	Рассмотрим переход от массива размера $n$ к массиву размера $n-1$. При удалении элемента $a_{\left \lceil \frac{n}{2} \right \rceil}= n$ элементы массива, которые были правее, сдвинулись на один влево.\\
+	Пусть $n$ - четное. Тогда $\left \lceil \frac{n}{2} \right \rceil = \left \lceil \frac{n-1}{2} \right \rceil$, а значит, элемент со значением $n-1$ находился справа от элемента $\left \lceil \frac{n}{2} \right \rceil$ в изначальном массиве.\\
+	Пусть $n$ - нечетное. Тогда $\left \lceil \frac{n}{2} \right \rceil = \left \lceil \frac{n-1}{2} \right \rceil + 1$, а значит, элемент со значением $n-1$ находился слева от элемента $\left \lceil \frac{n}{2} \right \rceil$ в изначальном массиве.\\
+	Таким образом, получается, что нужно расставлять элементы по убыванию начиная с середины, чередуя добавление налево и направо. Более просто можно сделать то же самое двумя циклами:\\
+	$\FOR i \GETS 1 \TO \left \lfloor \frac{n}{2} \right \rfloor \DO
+		a[i] \GETS 2*i;
+	$
+	
+	$\FOR i \GETS n \TO \left \lfloor \frac{n}{2} \right \rfloor+1 \DO
+		a[i] \GETS 2*(n-i)+1;
+	$
+	
+	\item Поиск в унимодальном массиве.
+	\begin{enumerate}
+		\item Разобъем массив на 3 равные части двумя элементами:
+		
+	\end{enumerate}
+\end{enumerate}
+\end{document}
