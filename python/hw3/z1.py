@@ -46,7 +46,7 @@ class Matrix:
         elif isinstance(other, Matrix):
             return self._MulMatrix(other)
         else:
-            raise TypeError("unsupported operand type(s) for +: '{}' and '{}'").format(self.__class__, type(other))
+            raise TypeError("unsupported operand type(s) for *: '{}' and '{}'".format(self.__class__, type(other)))
 
     def _MulScalar(self, num):
         res = Matrix()
@@ -110,9 +110,10 @@ class RotationMatrix(Matrix):
         Matrix.__init__(self, mat)
 
 
-m = Matrix([[3, 2, 5], [2, 4, 3], [1, 2, 4]])
-print ~m * m
+if __name__ == "__main__":
+    m = Matrix([[3, 2, 5], [2, 4, 3], [1, 2, 4]])
+    print ~m * m
 
-rot = RotationMatrix(math.pi/2)
-vec = Vector(1, 1, 0)
-print rot*vec
+    rot = RotationMatrix(math.pi/2)
+    vec = Vector(1, 1, 0)
+    print rot*vec
