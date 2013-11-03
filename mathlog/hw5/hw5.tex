@@ -1,0 +1,199 @@
+\documentclass[10pt]{article}
+\usepackage[a4paper,margin=0.5cm]{geometry}
+\usepackage[russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{enumerate}
+
+\input{commands}
+
+\begin{document}
+
+\title{Домашняя работа 5}
+\author{Антон Афанасьев}
+\maketitle
+
+\begin{enumerate}
+\item $\exists elim$ эквивалентно $\exists elim'$
+
+%\begin{center}
+	\step{\Gamma, \exists x \varphi \vdash \psi}{\existsE}
+	{
+		\step{\Gamma, \exists x \varphi \vdash \exists x \varphi}{\R}{}
+		\step{\Gamma, \exists x \varphi, \varphi \vdash \psi}{\W}
+		{
+			\step{\Gamma, \varphi \vdash \psi}{\ax}{}
+		}
+	}
+	\DisplayProof
+%\end{center}
+
+%\begin{center}
+	\step{\Gamma \vdash \psi}{\toE}
+	{
+		\step{\Gamma \vdash \exists x \varphi \to \psi}{\toI}
+		{
+			\step{\Gamma, \exists x \varphi \vdash \psi}{\existsEp}
+			{
+				\step{\Gamma, \varphi \vdash \psi}{\ax}{}
+			}
+		}
+		\step{\Gamma \vdash \exists x \varphi}{\ax}{}
+	}
+	\DisplayProof
+%\end{center}
+
+\item Допустимые правила
+\begin{enumerate}
+	\item 
+	\step{\Gamma, \exists x \varphi \vdash \exists x \psi}{\existsI}
+	{
+		\step{\Gamma, \exists x \varphi \vdash \psi}{\existsEp}
+		{
+			\step{\Gamma, \varphi \vdash \psi}{\ax}{}
+		}
+	}
+	\DisplayProof
+	
+	\item
+	\step{\Gamma, \forall x \varphi \vdash \psi}{\toE}
+	{
+		\step{\Gamma, \forall x \varphi \vdash \varphi \to \psi}{\W}
+		{
+			\step{\Gamma \vdash \varphi \to \psi}{\toI}
+			{
+				\step{\Gamma, \varphi \vdash \psi}{\ax}{}
+			}		
+		}
+		\step{\Gamma, \forall x \varphi \vdash \varphi}{\forallE}
+		{
+			\step{\Gamma, \forall x \varphi \vdash \forall x \varphi}{\R}{}
+		}
+	}
+	\DisplayProof
+	
+	\item
+	\step{\Gamma, \forall \varphi \vdash \forall x \psi}{\forallI}
+	{
+		\step{\Gamma, \forall \varphi \vdash \psi}{\unary[2.b]}
+		{
+			\step{\Gamma, \varphi \vdash \psi}{\ax}{}
+		}
+	}
+	\DisplayProof
+\end{enumerate}
+
+\item Деревья вывода
+\begin{enumerate}
+	\item $((\exists x \varphi) \to \forall x \psi) \to ((\forall x \varphi) \to \exists x \psi)$\\
+	\begin{center}
+	\step{\vdash ((\exists x \varphi) \to \forall x \psi) \to ((\forall x \varphi) \to \exists x \psi)}{\toI}
+	{
+		\step{(\exists x \varphi) \to \forall x \psi \vdash (\forall x \varphi) \to \exists x \psi}{\toI}
+		{
+			\step{(\exists x \varphi) \to \forall x \psi, \forall x \varphi \vdash \exists x \psi}{\existsI}
+			{
+				\step{(\exists x \varphi) \to \forall x \psi, \forall x \varphi \vdash \psi}{\unary[2.b]}
+				{
+					\step{(\exists x \varphi) \to \forall x \psi, \varphi \vdash \psi}{\forallE}
+					{
+						\step{(\exists x \varphi) \to \forall x \psi, \varphi \vdash \forall \psi}{\toE}
+						{
+							\step{(\exists x \varphi) \to \forall x \psi, \varphi \vdash (\exists x \varphi) \to \forall x \psi}{\R}{}
+							\step{(\exists x \varphi) \to \forall x \psi, \varphi \vdash \exists x \varphi}{\existsI}
+							{
+								\step{(\exists x \varphi) \to \forall x \psi, \varphi \vdash \varphi}{\R}{}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	\DisplayProof
+	\end{center}
+	
+	\item $\exists x \varphi \iff \neg \forall x \neg \varphi$\\
+	\begin{center}
+	\step{\vdash \exists  x \varphi \to \neg \forall x \neg \varphi}{\toI}
+	{
+		\step{\exists x \varphi \vdash (\forall x \neg \varphi) \to 0}{\toI}
+		{
+			\step{\exists x \varphi, \forall x \neg \varphi \vdash 0}{\existsEp}
+			{
+				\step{\varphi, \forall x \neg \varphi \vdash 0}{\unary[2.b]}
+				{
+					\step{\varphi, \neg \varphi \vdash 0}{\pc}{}
+				}
+			} 
+		}
+	}
+	\DisplayProof
+	\end{center}
+	
+	\begin{center}
+	\step{\vdash \neg \forall x \neg \varphi \to \exists x \varphi}{\toI}
+	{
+		\step{\neg \forall x \neg \varphi  \vdash \exists x \varphi}{\case}
+		{
+			\step{\neg \forall x \neg \varphi, \varphi \vdash \exists x \varphi}{\existsI}
+			{
+				\step{\neg \forall x \neg \varphi, \varphi \vdash \varphi}{\R}{}
+			}
+			\step{\neg \forall x \neg \varphi, \neg \varphi \vdash \exists x \varphi}{\botE}
+			{
+				\step{\neg \forall x \neg \varphi, \neg \varphi \vdash  0}{\toE}
+				{
+					\step{\neg \forall x \neg \varphi, \neg \varphi \vdash (\forall x \neg \varphi) \to 0}{\R}{}
+					\step{\neg \forall x \neg \varphi, \neg \varphi \vdash \forall x \neg \varphi}{\forallI}
+					{
+						\step{\neg \forall x \neg \varphi, \neg \varphi \vdash \neg \varphi}{\R}{}
+					}
+				}
+			}
+		}
+	}	
+	\DisplayProof
+	\end{center}
+	
+	\newpage
+	\item $\forall x \exists y(\varphi \to \psi) \iff \exists y \forall x (\varphi \to \psi)$\\
+	\begin{center}
+	\step{\vdash \forall x \exists y(\varphi \to \psi) \to \exists y \forall x (\varphi \to \psi)}{\toI}
+	{
+		\step{\forall x \exists y(\varphi \to \psi) \vdash \exists y \forall x (\varphi \to \psi)}{\unary[2.b]}
+		{
+			\step{\exists y(\varphi \to \psi) \vdash \exists y \forall x (\varphi \to \psi)}{\unary[2.a]}
+			{
+				\step{\varphi \to \psi \vdash \forall x (\varphi \to \psi)}{\forallI}
+				{
+					\step{\varphi \to \psi \vdash \varphi \to \psi}{\R}{}
+				}
+			}
+		}
+	}
+	\DisplayProof
+	\end{center}
+
+	\begin{center}
+	\step{\vdash \exists y \forall x (\varphi \to \psi) \to \forall x \exists y(\varphi \to \psi)}{\toI}
+	{
+		\step{\exists y \forall x (\varphi \to \psi) \vdash \forall x \exists y(\varphi \to \psi)}{\forallI}
+		{
+			\step{\exists y \forall x (\varphi \to \psi) \vdash \exists y(\varphi \to \psi)}{\unary[2.a]}
+			{
+				\step{\forall x (\varphi \to \psi) \vdash \varphi \to \psi}{\unary[2.b]}
+				{
+					\step{\varphi \to \psi \vdash \varphi \to \psi}{\R}{}
+				}
+			}
+		}
+	}
+	\DisplayProof
+	\end{center}
+\end{enumerate}
+\end{enumerate}
+
+\end{document}

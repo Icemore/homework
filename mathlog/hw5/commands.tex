@@ -1,0 +1,31 @@
+\usepackage{bussproofs}
+
+\renewcommand{\bot}{0}
+\renewcommand{\iff}{\leftrightarrow}
+\newcommand{\ax}[2]{\AxiomC{$#1$} }
+\newcommand{\R}[3][]{\ax{}{} \RightLabel{$R#1$} \UnaryInfC{$#2$}}
+\newcommand{\pc}[3][]{\ax{}{} \RightLabel{$p.c.#1$} \UnaryInfC{$#2$}}
+\newcommand{\EM}[3][]{\ax{}{} \RightLabel{$E.M.#1$} \UnaryInfC{$#2$}}
+\newcommand{\W}[3][]{#3 \RightLabel{$W#1$} \UnaryInfC{$#2$}}
+\newcommand{\toI}[3][]{#3 \RightLabel{$\to intro#1$} \UnaryInfC{$#2$}}
+\newcommand{\toE}[3][]{#3 \RightLabel{$\to elim#1$} \BinaryInfC{$#2$}}
+\newcommand{\andI}[3][]{#3 \RightLabel{$\land intro#1$} \BinaryInfC{$#2$}}
+\newcommand{\andEl}[3][]{#3 \RightLabel{$\land elim_1#1$} \UnaryInfC{$#2$}}
+\newcommand{\andEr}[3][]{#3 \RightLabel{$\land elim_2#1$} \UnaryInfC{$#2$}}
+\newcommand{\orIl}[3][]{#3 \RightLabel{$\lor intro_1#1$} \UnaryInfC{$#2$}}
+\newcommand{\orIr}[3][]{#3 \RightLabel{$\lor intro_2#1$} \UnaryInfC{$#2$}}
+\newcommand{\orE}[3][]{#3 \RightLabel{$\lor elim#1$} \TrinaryInfC{$#2$}}
+\newcommand{\botE}[3][]{#3 \RightLabel{$\bot\ elim#1$} \UnaryInfC{$#2$}}
+\newcommand{\case}[3][]{#3 \RightLabel{$cases#1$} \BinaryInfC{$#2$}}
+\newcommand{\existsI}[3][]{#3 \RightLabel{$\exists intro#1$} \UnaryInfC{$#2$}}
+\newcommand{\existsE}[3][]{#3 \RightLabel{$\exists elim#1$} \BinaryInfC{$#2$}}
+\newcommand{\forallI}[3][]{#3 \RightLabel{$\forall intro#1$} \UnaryInfC{$#2$}}
+\newcommand{\forallE}[3][]{#3 \RightLabel{$\forall elim#1$} \UnaryInfC{$#2$}}
+\newcommand{\existsEp}[3][]{#3 \RightLabel{$\exists elim'#1$} \UnaryInfC{$#2$}}
+
+\newcommand{\unary}[3][]{#3 \RightLabel{$#1$} \UnaryInfC{$#2$}}
+\newcommand{\binary}[3][]{#3 \RightLabel{$#1$} \BinaryInfC{$#2$}}
+\newcommand{\trinary}[3][]{#3 \RightLabel{$#1$} \TrinaryInfC{$#2$}}
+
+
+\newcommand{\step}[3]{ #2{#1}{#3} }
