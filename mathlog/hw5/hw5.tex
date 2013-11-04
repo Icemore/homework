@@ -47,10 +47,10 @@
 
 \item Допустимые правила
 \begin{enumerate}
-	\item 
-	\step{\Gamma, \exists x \varphi \vdash \exists x \psi}{\existsI}
+	\item 	
+	\step{\Gamma, \exists x \varphi \vdash \exists x \psi}{\existsEp}
 	{
-		\step{\Gamma, \exists x \varphi \vdash \psi}{\existsEp}
+		\step{\Gamma, \varphi \vdash \exists x \psi}{\existsI}
 		{
 			\step{\Gamma, \varphi \vdash \psi}{\ax}{}
 		}
