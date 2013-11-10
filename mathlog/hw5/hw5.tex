@@ -1,5 +1,5 @@
 \documentclass[10pt]{article}
-\usepackage[a4paper,margin=0.5cm]{geometry}
+\usepackage[a3paper,margin=0.5cm]{geometry}
 \usepackage[russian]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb}
@@ -136,20 +136,30 @@
 	\begin{center}
 	\step{\vdash \neg \forall x \neg \varphi \to \exists x \varphi}{\toI}
 	{
-		\step{\neg \forall x \neg \varphi  \vdash \exists x \varphi}{\case}
+		\step{\neg \forall x \neg \varphi \vdash \exists x \varphi}{\case}
 		{
-			\step{\neg \forall x \neg \varphi, \varphi \vdash \exists x \varphi}{\existsI}
+			\step{\neg \forall x \neg \varphi, \exists x \varphi \vdash \exists x \varphi}{\R}{}
+			\step{\neg \forall x \neg \varphi, \neg \exists x \varphi \vdash \exists x \varphi}{\botE}
 			{
-				\step{\neg \forall x \neg \varphi, \varphi \vdash \varphi}{\R}{}
-			}
-			\step{\neg \forall x \neg \varphi, \neg \varphi \vdash \exists x \varphi}{\botE}
-			{
-				\step{\neg \forall x \neg \varphi, \neg \varphi \vdash  0}{\toE}
+				\step{\neg \forall x \neg \varphi, \neg \exists x \varphi \vdash 0}{\toE}
 				{
-					\step{\neg \forall x \neg \varphi, \neg \varphi \vdash (\forall x \neg \varphi) \to 0}{\R}{}
-					\step{\neg \forall x \neg \varphi, \neg \varphi \vdash \forall x \neg \varphi}{\forallI}
+					\step{\neg \forall x \neg \varphi, \neg \exists x \varphi \vdash (\forall x \neg \varphi) \to 0}{\R}{}
+					\step{\neg \forall x \neg \varphi, \neg \exists x \varphi \vdash \forall x \neg \varphi}{\forallI}
 					{
-						\step{\neg \forall x \neg \varphi, \neg \varphi \vdash \neg \varphi}{\R}{}
+						\step{\neg \forall x \neg \varphi, \neg \exists x \varphi \vdash \neg \varphi}{\W}
+						{
+							\step{\neg \exists x \varphi \vdash \neg \varphi}{\toI}
+							{
+								\step{\neg \exists x \varphi, \varphi \vdash 0}{\toE}
+								{
+									\step{\neg \exists x \varphi, \varphi \vdash (\exists x \varphi) \to 0}{\R}{}
+									\step{\neg \exists x \varphi, \varphi \vdash \exists x \varphi}{\existsI}
+									{
+										\step{\neg \exists x \varphi, \varphi \vdash \varphi}{\R}{}
+									}
+								}
+							}
+						}
 					}
 				}
 			}
@@ -158,18 +168,68 @@
 	\DisplayProof
 	\end{center}
 	
-	\newpage
+	%\newpage
 	\item $\forall x \exists y(\varphi \to \psi) \iff \exists y \forall x (\varphi \to \psi)$\\
 	\begin{center}
 	\step{\vdash \forall x \exists y(\varphi \to \psi) \to \exists y \forall x (\varphi \to \psi)}{\toI}
 	{
-		\step{\forall x \exists y(\varphi \to \psi) \vdash \exists y \forall x (\varphi \to \psi)}{\unary[2.b]}
+		\step{\forall x \exists y(\varphi \to \psi) \vdash \exists y \forall x (\varphi \to \psi)}{\case}
 		{
-			\step{\exists y(\varphi \to \psi) \vdash \exists y \forall x (\varphi \to \psi)}{\unary[2.a]}
+			\step{\forall x \exists y(\varphi \to \psi), \forall y \varphi \vdash \exists y \forall x (\varphi \to \psi)}{\existsI}
 			{
-				\step{\varphi \to \psi \vdash \forall x (\varphi \to \psi)}{\forallI}
+				\step{\forall x \exists y(\varphi \to \psi), \forall y \varphi \vdash \forall x (\varphi \to \psi)}{\forallI}
 				{
-					\step{\varphi \to \psi \vdash \varphi \to \psi}{\R}{}
+					\step{\forall x \exists y(\varphi \to \psi), \forall y \varphi \vdash \varphi \to \psi}{\unary[2.b]}
+					{
+						\step{\exists y(\varphi \to \psi), \forall y \varphi \vdash \varphi \to \psi}{\toI}
+						{
+							\step{\exists y(\varphi \to \psi), \forall y \varphi, \varphi \vdash \psi}{\W}
+							{
+								\step{\exists y(\varphi \to \psi), \forall y \varphi \vdash \psi}{\existsEp}
+								{
+									\step{\varphi \to \psi, \forall y \varphi \vdash \psi}{\toE}
+									{
+										\step{\varphi \to \psi, \forall y \varphi \vdash \varphi \to \psi}{\R}{}
+										\step{\varphi \to \psi, \forall y \varphi \vdash \varphi}{\W}
+										{
+											\step{\forall y \varphi \vdash \varphi}{\forallE}
+											{
+												\step{\forall y \varphi \vdash \forall y \varphi}{\R}{}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			\step{\forall x \exists y(\varphi \to \psi), \neg \forall y \varphi \vdash \exists y \forall x (\varphi \to \psi)}{\W}
+			{
+				\step{\neg \forall y \varphi \vdash \exists y \forall x (\varphi \to \psi)}{\case}
+				{
+					\step{\neg \forall y \varphi, \exists y \neg \varphi \vdash \exists y \forall x (\varphi \to \psi)}{\W}
+					{
+						\step{\exists y \neg \varphi \vdash \exists y \forall x (\varphi \to \psi)}{\unary[2.a]}
+						{
+							\step{\neg \varphi \vdash \forall x (\varphi \to \psi)}{\forallI}
+							{
+								\step{\neg \varphi \vdash \varphi \to \psi}{\pc}{}
+							}
+						}
+					}
+					
+					\step{\neg \forall y \varphi, \neg \exists y \neg \varphi \vdash \exists y \forall x (\varphi \to \psi)}{\botE}
+					{
+						\step{\neg \forall y \varphi, \neg \exists y \neg \varphi \vdash 0}{\toE}
+						{
+							\step{\neg \forall y \varphi, \neg \exists y \neg \varphi \vdash (\exists y \neg \varphi) \to 0)}{\R}{}
+							\step{\neg \forall y \varphi, \neg \exists y \neg \varphi \vdash \exists y \neg \varphi}{\W}
+							{
+								\step{\neg \forall y \varphi \vdash \exists y \neg \varphi}{\last[3.b]}{}
+							}
+						}
+					}
 				}
 			}
 		}
