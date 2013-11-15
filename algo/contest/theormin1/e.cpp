@@ -19,7 +19,6 @@
 #include <utility>
 #include <ctime>
 #include <memory.h>
-#include <random>
 #include<bitset>
 #define forn(i,n) for (int i = 0; i < (int)(n); i++)
 #define forv(i, a) for(int i=0; i<(int)a.size(); i++)
@@ -52,37 +51,35 @@ int median;
 
 void printAns(int left, int right)
 {
-	for (int i = left; i <= right; i++)
-		printf("%d ", a[i]);
-	printf("\n");
+  for (int i = left; i <= right; i++)
+    printf("%d ", a[i]);
+  printf("\n");
 }
 
 bool cmp(int first, int second)
 {
-	if(abs(first-median) == abs(second - median))
-		return first < second;
-	else
-		return abs(first-median) < abs(second - median);
+  if(abs(first-median) == abs(second - median))
+    return first < second;
+  else
+    return abs(first-median) < abs(second - median);
 }
 
 void solve()
 {
-	int m = (n-1)/2; //median index
-	int left = m-k/2, right = m+(k-1)/2;
+  int m = (n-1)/2; //median index
+  int left = (n-k)/2, right = (n+k)/2-1;
 
-	if(left<0) ++left, ++right;
+  nth_element(a, a+m, a+n);
+  median = a[m];
 
-	nth_element(a, a+m, a+n);
-	median = a[m];
+  // by position
+  nth_element(a, a+left, a+m+1);
+  nth_element(a+m, a+right, a+n);
+  printAns(left, right);
 
-	// by position
-	nth_element(a, a+left, a+m+1);
-	nth_element(a+m, a+right, a+n);
-	printAns(left, right);
-
-	// by value
-	nth_element(a, a+k-1, a+n, cmp);
-	printAns(0, k-1);
+  // by value
+  nth_element(a, a+k-1, a+n, cmp);
+  printAns(0, k-1);
 }
 
 
@@ -95,17 +92,17 @@ int main() {
     //freopen("input.txt", "r", stdin);freopen("output.txt", "w", stdout);
 #endif
     //ios_base::sync_with_stdio(false); cin.tie(0);
-	
-	scanf("%d", &n);
-	forn(i, n) scanf("%d", a+i);
-	scanf("%d", &k);
+  
+  scanf("%d", &n);
+  forn(i, n) scanf("%d", a+i);
+  scanf("%d", &k);
 
-	if(k==0)
-	{
-		cout<<endl;
-		return 0;
-	}
+  if(k==0)
+  {
+    cout<<endl;
+    return 0;
+  }
 
-	solve();
+  solve();
     return 0;
 }
