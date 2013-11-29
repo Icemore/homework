@@ -52,9 +52,9 @@ void getTreeRepresentation(node* v, BitChain& bits, std::vector<uint8_t> &elemen
 		getTreeRepresentation(v->right, bits, elementsInOrder);
 
 	if(!v->isElementNode)
-    {
+	{
 		bits.pushBit(0);
-    }
+	}
 	else
 	{
 		bits.pushBit(1);
@@ -72,22 +72,22 @@ node* buildTreeFromRepresentation(BitChain& bits, std::vector<uint8_t> &elements
 		node* cur = bits[i] ? node::getNewElementNode() : node::getNewSupportNode();
 		
 		if(cur->isElementNode)
-        {
+		{
 			cur->element = elementsInOrder[elementIndex++];
-        }
+		}
 		else
 		{
 			if(!st.empty())
-            {
+			{
 				cur->right = st.top();
-                st.pop();
-            }
+				st.pop();
+			}
 
 			if(!st.empty())
-            {
+			{
 				cur->left = st.top();
-                st.pop();
-            }
+				st.pop();
+			}
 		}
 
 		st.push(cur);

@@ -36,7 +36,7 @@ int main(int argc, char **argv)
 				outputFileName = std::string(optarg);
 				break;
 			case '?':
-				printUsageAndExit();                
+				printUsageAndExit();
 				break;
 		}
 
@@ -50,15 +50,15 @@ int main(int argc, char **argv)
 
 	std::ifstream ifs(inputFileName, std::ios::binary);
 	std::ofstream ofs(outputFileName, std::ios::binary);
-    
+	
 	if(compression)
 		encode(ifs, ofs);
 
 	if(decompression)
 		decode(ifs, ofs);
 
-    ifs.close();
-    ofs.close();
+	ifs.close();
+	ofs.close();
 
-    exit(EXIT_SUCCESS);	
+	exit(EXIT_SUCCESS);	
 }
