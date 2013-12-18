@@ -1,0 +1,27 @@
+var_decl := ID = expr EOL
+expr := mul_expr expr_tail
+expr_tail := ADD_OP mul_expr expr_tail | lambda
+mul_expr := unary_expr mul_expr_tail
+mul_expr_tail := MUL_OP unary_expr mul_expr_tail | lambda
+unary_expr := SUB_OP base_expr | base_expr
+base_expr := ( expr ) | operand
+
+operand := CONST | NAME | func_call
+func_call := NAME ( fact_arg_list )
+fact_arg_list := expr fact_arg_list_tail | lambda
+fact_arg_list_tail := , expr fact_arg_list_tail | lambda
+
+io_st := PRINT expr EOL | READ NAME EOL
+while_st := WHILE condition : EOL st_list END EOL
+if_st := IF condition : EOL st_list END EOL
+ret_st := RETURN expr EOL
+condition := expr CMP_OP expr
+
+st_list := statement st_list | lambda
+statement := var_decl | while_st | if_st | io_st | expr EOL | ret_st
+
+func_declaration := DEF NAME ( formal_arg_list ) : EOL st_list END EOL
+formal_arg_list := NAME formal_arg_list_tail | lambda
+formal_arg_list_tail := , NAME formal_arg_list_tail | lambda
+
+programm := statement programm | func_declaration programm | lambda

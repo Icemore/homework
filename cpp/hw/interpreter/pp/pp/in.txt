@@ -1,0 +1,13 @@
+
+def fib(k):
+	if k<2:
+		return 1
+	end
+	
+	return fib(k-1)+fib(k-2)
+end
+n=0
+read n
+print fib(n)
+
+# 1 1 2 3 5 8 13 
