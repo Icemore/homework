@@ -1,0 +1,363 @@
+\documentclass[10pt]{article}
+\usepackage[a2paper,margin=0.2cm]{geometry}
+\usepackage[russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{enumerate}
+
+\input{commands}
+
+\begin{document}
+
+\title{Домашняя работа 2}
+\author{Антон Афанасьев}
+\maketitle
+
+\begin{enumerate}[1.]
+
+\item % 1.
+Известно, что набор связок $\{\lnot, \lor\}$ полон. Покажем, что эти связки выражаются через $\{ \to, 0\}$.\\
+$\lnot a = a \to 0$\\
+$a \lor b = (a \to 0) \to b$\\
+$\Rightarrow$ Набор связок $\{ \to, 0\}$ полон.
+
+\item % 2.
+$\bar f(x_1, \ldots, x_k) = \lnot f(\lnot x_1, \ldots, \lnot x_k)$
+\begin{itemize}
+	\item Пусть $f$ не сохраняет 0, тогда $\bar f$ не сохраняет 1.\\
+	$f(0, \ldots, 0) = 1$\\
+	$\bar f(1, \ldots, 1) = \lnot f(0, \ldots, 0) = 0$
+	
+	\item Пусть $f$ не сохраняет 1, тогда $\bar f$ не сохраняет 0.\\
+	$f(1, \ldots, 1) = 0$\\
+	$\bar f(0, \ldots, 0) = \lnot f(1, \ldots, 1) = 1$
+	
+	\item Пусть $f$ немонотонная функция, тогда $\bar f$ тоже немонотонная.\\
+	$f(\ldots, x_{t-1}, 0, x_{t+1}, \ldots) = 1$\\
+	$f(\ldots, x_{t-1}, 1, x_{t+1}, \ldots) = 0$\\
+	$\bar f(\ldots, \lnot x_{t-1}, 0, \lnot x_{t+1}) = \lnot f(\ldots, x_{t-1}, 1, x_{t+1}, \ldots) = 1$\\
+	$\bar f(\ldots, \lnot x_{t-1}, 1, \lnot x_{t+1}) = \lnot f(\ldots, x_{t-1}, 0, x_{t+1}, \ldots) = 0$
+	
+	\item Пусть $f$ нелинейная фунцкия, тогда $\bar f$ тоже нелинейная.\\
+	$f(x_1, \ldots, x_k) = \ldots \oplus \alpha_i \land x_i \land \ldots \land x_j \oplus \ldots$\\
+	$\bar f(x_1, \ldots, x_k) = 1 \oplus \ldots \alpha_i \land (x_i \oplus 1) \land \ldots \land (x_j \oplus 1) \oplus \ldots = \ldots \oplus \alpha_i \land x_i \land \ldots \land x_j \oplus \ldots$\\
+	Т.к. $\land$ дистрибутивна относительно $\oplus$.
+	
+	\item Пусть $f$ не самодвойственная функция, тогда $\bar f$ тоже не самодвойственная.\\
+	$f(x_1, \ldots, x_k) \not = \lnot f(\lnot x_1, \ldots, \lnot x_k)$\\
+	$\bar f(x_1, \ldots, x_k) = \lnot f(\lnot x_1, \ldots, \lnot x_k) \not = f(x_1, \ldots, x_k) = \lnot \bar f (\lnot x_1, \ldots, \lnot x_k)$
+\end{itemize}
+
+Т. к. $f(x_1, \ldots, x_k) = \lnot \bar f(\lnot x_1, \ldots, \lnot x_k)$, эти рассуждения верны и в обратную сторону.\\
+Следовательно, по критерию Поста $\{f_1, \ldots, f_n\}$ полон тогда и только тогда, когда полон $\{\bar f_1, \ldots, \bar f_n\}$
+
+
+\item % 3.
+	\EM{$\Gamma \vdash A \lor \lnot A$}
+	\ax{$\Gamma, A \vdash B$}
+	\ax{$\Gamma, \lnot A \vdash B$}
+	\orE{$\Gamma \vdash B$}
+	\DisplayProof
+	
+\item % 4.
+\begin{enumerate}[(a)]
+\bfseries
+\item $\vdash 0 \to A$ % (a)
+\mdseries
+\begin{center}
+	\R{$0 \vdash 0$}
+	\botE{$ 0 \vdash A$}
+	\toI{$\vdash 0 \to A$}
+	\DisplayProof
+\end{center}
+
+\bfseries
+\item $\vdash A \lor ( A \land  B) \iff A$ % (b)
+\mdseries
+\begin{center}
+	\R{$A \lor ( A \land  B) \vdash A \lor ( A \land  B)$}
+	\R{$A \lor ( A \land  B), A \vdash A$}
+	\R{$A \lor ( A \land  B), A \land B \vdash A \land B$}
+	\andEl{$A \lor ( A \land  B), A \land B \vdash A$}
+	
+	\orE{$A \lor ( A \land  B) \vdash A$}
+	\toI{$\vdash A \lor ( A \land  B) \to A$}
+	
+	\R{$A \vdash A$}
+	\orIl{$A \vdash A \lor (A \land B)$}
+	\toI{$\vdash A \to A \lor (A \land B)$}
+	
+	\andI{$\vdash A \lor ( A \land  B) \iff A$}
+	
+	\DisplayProof
+\end{center}
+
+\bfseries   % (c)
+\item $A \land (A \lor B) \iff A$
+\mdseries
+\begin{center}
+	\R{$A \land (A \lor B) \vdash A \land (A \lor B)$}
+	\andEl{$A \land (A \lor B) \vdash A$}
+	\toI{$ \vdash A \land (A \lor B) \to A$}
+	
+	\R{$ A \vdash A$}
+	\R{$ A \vdash A$}
+	\orIl{$A \vdash A \lor B$}
+	\andI{$A \vdash A \land (A \lor B)$}
+	\toI{$ \vdash A \to (A \land (A \lor B))$}
+	
+	\andI{$A \land (A \lor B) \iff A$}
+	\DisplayProof
+\end{center}
+
+\bfseries   % (d)
+\item $(A \lor B \to C) \iff (A \to C) \land (B \to C)$
+\mdseries
+\begin{center}
+	\R{$A \lor B \to C, A \vdash A \lor B \to C$}
+	\R{$A \lor B \to C, A \vdash A$}
+	\orIl{$A \lor B \to C, A \vdash A \lor B$}
+	\toE{$A \lor B \to C, A \vdash C$}
+	\toI{$A \lor B \to C \vdash  A \to C$}
+	
+	\R{$A \lor B \to C, B \vdash A \lor B \to C$}
+	\R{$A \lor B \to C, B \vdash B$}
+	\orIr{$A \lor B \to C, B \vdash A \lor B$}
+	\toE{$A \lor B \to C, B \vdash C$}
+	\toI{$A \lor B \to C \vdash  B \to C$}
+	
+	\andI{$A \lor B \to C \vdash (A \to C) \land (B \to C)$}
+	\toI{$\vdash (A \lor B \to C) \to (A \to C) \land (B \to C)$}
+	\DisplayProof
+
+	\R{$(A \to B) \land (B \to C), A \lor B \vdash A \lor B$}
+	
+	\R{$(A \to B) \land (B \to C), A \lor B, A \vdash (A \to B) \land (B \to C)$}
+	\andEl{$(A \to B) \land (B \to C), A \lor B, A \vdash A \to C$}
+	\R{$(A \to B) \land (B \to C), A \lor B, A \vdash A$}
+	\toE{$(A \to B) \land (B \to C), A \lor B, A \vdash C$}
+	
+	\R{$(A \to B) \land (B \to C), A \lor B, B \vdash (A \to B) \land (B \to C)$}
+	\andEr{$(A \to B) \land (B \to C), A \lor B, B \vdash B \to C$}
+	\R{$(A \to B) \land (B \to C), A \lor B, B \vdash B$}
+	\toE{$(A \to B) \land (B \to C), A \lor B, B \vdash C$}
+	
+	\orE{$(A \to B) \land (B \to C), A \lor B \vdash C$}
+	\toI{$(A \to B) \land (B \to C) \vdash A \lor B \to C$}
+	\toI{$\vdash ((A \to B) \land (B \to C)) \to (A \lor B \to C)$}
+	\DisplayProof
+\end{center}
+
+\bfseries   % (e)
+\item $(A \to B \land C) \iff (A \to B) \land (A \to C)$
+\mdseries
+\begin{center}
+
+	\R{$A \to B \land C, A \vdash A \to B \land C$}
+	\R{$A \to B \land C, A \vdash A$}
+	\toE{$A \to B \land C, A \vdash B \land C$}
+	\andEl{$A \to B \land C, A \vdash B$}
+	\toI{$A \to B \land C \vdash A \to B$}
+	
+	\R{$A \to B \land C, A \vdash A \to B \land C$}
+	\R{$A \to B \land C, A \vdash A$}
+	\toE{$A \to B \land C, A \vdash B \land C$}
+	\andEr{$A \to B \land C, A \vdash C$}
+	\toI{$A \to B \land C \vdash A \to C$}
+	
+	\andI{$A \to B \land C \vdash (A \to B) \land (A \to C)$}
+	\toI{$\vdash (A \to B \land C) \to (A \to B) \land (A \to C)$}
+	\DisplayProof
+	
+	\R{$(A \to B) \land (A \to C), A \vdash (A \to B) \land (A \to C)$}
+	\andEl{$(A \to B) \land (A \to C), A \vdash A \to B$}
+	\R{$(A \to B) \land (A \to C), A \vdash A$}
+	\toE{$(A \to B) \land (A \to C), A \vdash B$}
+	
+	\R{$(A \to B) \land (A \to C), A \vdash (A \to B) \land (A \to C)$}
+	\andEr{$(A \to B) \land (A \to C), A \vdash A \to C$}
+	\R{$(A \to B) \land (A \to C), A \vdash A$}
+	\toE{$(A \to B) \land (A \to C), A \vdash C$}
+	
+	\andI{$(A \to B) \land (A \to C), A \vdash B \land C$}
+	\toI{$(A \to B) \land (A \to C) \vdash A \to B \land C$}
+	\toI{$\vdash (A \to B) \land (A \to C) \to (A \to B \land C)$}
+	\DisplayProof
+\end{center}
+
+\bfseries
+\item $\lnot (A \lor B) \iff \lnot A \land \lnot B$
+\mdseries
+\begin{center}
+	\R{$(A \lor B) \to 0, A \vdash (A \lor B) \to 0$}
+	\R{$(A \lor B) \to 0, A \vdash A$}
+	\orIl{$(A \lor B) \to 0, A \vdash A \lor B$}
+	\toE{$(A \lor B) \to 0, A \vdash 0$}
+	\toI{$(A \lor B) \to 0 \vdash A \to 0$}
+	
+	\R{$(A \lor B) \to 0, B \vdash (A \lor B) \to 0$}
+	\R{$(A \lor B) \to 0, B \vdash B$}
+	\orIr{$(A \lor B) \to 0, B \vdash A \lor B$}
+	\toE{$(A \lor B) \to 0, B \vdash 0$}
+	\toI{$(A \lor B) \to 0 \vdash B \to 0$}
+	
+	\andI{$(A \lor B) \to 0 \vdash (A \to 0) \land (B \to 0)$}
+	\toI{$\vdash ((A \lor B) \to 0) \to (A \to 0) \land (B \to 0)$}
+	\DisplayProof
+	
+	\R{$(A \to 0) \land (B \to 0), A \lor B \vdash A \lor B$}
+	
+	\R{$(A \to 0) \land (B \to 0), A \lor B, A \vdash (A \to 0) \land (B \to 0)$}
+	\andEl{$(A \to 0) \land (B \to 0), A \lor B, A \vdash A \to 0$}
+	\R{$(A \to 0) \land (B \to 0), A \lor B, A, \vdash A$}
+	\toE{$(A \to 0) \land (B \to 0), A \lor B, A \vdash 0$}
+	
+	\R{$(A \to 0) \land (B \to 0), A \lor B, B \vdash (A \to 0) \land (B \to 0)$}
+	\andEr{$(A \to 0) \land (B \to 0), A \lor B, B \vdash B \to 0$}
+	\R{$(A \to 0) \land (B \to 0), A \lor B, B, \vdash B$}
+	\toE{$(A \to 0) \land (B \to 0), A \lor B, B \vdash 0$}
+	
+	\orE{$(A \to 0) \land (B \to 0), A \lor B \vdash 0$}
+	\toI{$(A \to 0) \land (B \to 0) \vdash (A \lor B) \to 0$}
+	\toI{$\vdash (A \to 0) \land (B \to 0) \to ((A \lor B) \to 0)$}
+	\DisplayProof
+\end{center}
+
+\bfseries
+\item $A \iff (A \to 0) \to 0$ % (g)
+\mdseries
+\begin{center}
+	\R{$A, A \to 0 \vdash A$}
+	\R{$A, A \to 0 \vdash A \to 0$}
+	\toE{$A, A \to 0 \vdash 0$}
+	\toI{$A \vdash (A \to 0) \to 0$}
+	\toI{$\vdash A \to ((A \to 0) \to 0)$}
+	
+	\R{$(A \to 0) \to 0, A \vdash A$}
+	
+	\R{$(A \to 0) \to 0, A \to 0 \vdash (A \to 0) \to 0$}
+	\R{$(A \to 0) \to 0, A \to 0 \vdash A \to 0$}
+	\toE{$(A \to 0) \to 0, A \to 0 \vdash 0$}
+	\botE{$(A \to 0) \to 0, A \to 0 \vdash A$}
+	
+	\case{$(A \to 0) \to 0 \vdash A$}
+	\toI{$\vdash ((A \to 0) \to 0) \to A$}
+	
+	\andI{$A \iff (A \to 0) \to 0$}
+	\DisplayProof
+	
+\end{center}
+
+\bfseries
+\item $\vdash ((A \lor B) \to 0) \iff (A \to 0) \land (B \to 0)$ % (h)
+\mdseries
+\begin{center}
+	\R{$(A \lor B) \to 0, A \vdash A$}
+	\orIl{$(A \lor B) \to 0, A \vdash A \lor B$}
+	\R{$(A \lor B) \to 0, A \vdash (A \lor B) \to 0$}
+	\toE{$(A \lor B) \to 0, A \vdash 0$}
+	\toI{$(A \lor B) \to 0 \vdash A \to 0$}
+	
+	\R{$(A \lor B) \to 0, B \vdash B$}
+	\orIr{$(A \lor B) \to 0, B \vdash A \lor B$}
+	\R{$(A \lor B) \to 0, B \vdash (A \lor B) \to 0$}
+	\toE{$(A \lor B) \to 0, B \vdash 0$}
+	\toI{$(A \lor B) \to 0 \vdash B \to 0$}
+	
+	\andI{$(A \lor B) \to 0 \vdash (A \to 0) \land (B \to 0)$}
+	\toI{$\vdash ((A \lor B) \to 0) \to (A \to 0) \land (B \to 0)$}
+	\DisplayProof
+	
+	\R{$(A \to 0) \land (B \to 0), A \lor B \vdash A \lor B$}
+	
+	\R{$(A \to 0) \land (B \to 0), A \lor B, A \vdash (A \to 0) \land (B \to 0)$}
+	\andEl{$(A \to 0) \land (B \to 0), A \lor B, A \vdash A \to 0$}
+	\R{$(A \to 0) \land (B \to 0), A \lor B, A \vdash A$}
+	\toE{$(A \to 0) \land (B \to 0), A \lor B, A \vdash 0$}
+	
+	\R{$(A \to 0) \land (B \to 0), A \lor B, B \vdash (A \to 0) \land (B \to 0)$}
+	\andEr{$(A \to 0) \land (B \to 0), A \lor B, B \vdash B \to 0$}
+	\R{$(A \to 0) \land (B \to 0), A \lor B, B \vdash B$}
+	\toE{$(A \to 0) \land (B \to 0), A \lor B, B \vdash 0$}
+	
+	\orE{$(A \to 0) \land (B \to 0), A \lor B \vdash 0$}
+	\toI{$(A \to 0) \land (B \to 0) \vdash (A \lor B) \to 0$}
+	\toI{$\vdash (A \to 0) \land (B \to 0) \to (A \lor B) \to 0$}
+	\DisplayProof
+	
+	\iffalse
+	\predet{$\vdash ((A \lor B) \to 0) \to (A \to 0) \land (B \to 0)$}
+	\predet{$\vdash (A \to 0) \land (B \to 0) \to (A \lor B) \to 0$}
+	\andI{$\vdash ((A \lor B) \to 0) \iff (A \to 0) \land (B \to 0)$}
+	\DisplayProof
+	\fi
+\end{center}
+
+\bfseries % (i)
+\item $(A \to B) \iff (\lnot B \to \lnot A)$
+\mdseries
+\begin{center}
+	\R{$A \to B, B \to 0, A \vdash B \to 0$}
+	\R{$A \to B, B \to 0, A \vdash A \to B$}
+	\R{$A \to B, B \to 0, A \vdash A$}
+	\toE{$A \to B, B \to 0, A \vdash B$}
+	\toE{$A \to B, B \to 0, A \vdash 0$}
+	\toI{$A \to B, B \to 0 \vdash A \to 0$}
+	\toI{$A \to B \vdash (B \to 0) \to (A \to 0)$}
+	\toI{$\vdash (A \to B) \to ((B \to 0) \to (A \to 0))$}
+	\DisplayProof
+	
+	\R{$(B \to 0) \to (A \to 0), A, B \vdash B$}
+	\R{$(B \to 0) \to (A \to 0), A, B \to 0 \vdash (B \to 0) \to (A \to 0)$}
+	\R{$(B \to 0) \to (A \to 0), A, B \to 0 \vdash B \to 0$}
+	\toE{$(B \to 0) \to (A \to 0), A, B \to 0 \vdash A \to 0$}
+	\R{$(B \to 0) \to (A \to 0), A, B \to 0 \vdash A$}
+	\toE{$(B \to 0) \to (A \to 0), A, B \to 0 \vdash 0$}
+	\botE{$(B \to 0) \to (A \to 0), A, B \to 0 \vdash B$}
+	\case{$(B \to 0) \to (A \to 0), A \vdash B$}
+	\toI{$(B \to 0) \to (A \to 0) \vdash A \to B$}
+	\toI{$\vdash ((B \to 0) \to (A \to 0)) \to (A \to B)$}
+	\DisplayProof
+\end{center}
+
+\bfseries % (j)
+\item $(A \to B) \lor (B \to A)$
+\mdseries
+\begin{center}
+	\R{$A, B \vdash A$}
+	\toI{$A \vdash B \to A$}
+	\orIr{$A \vdash (A \to B) \lor (B \to A)$}
+	
+	\R{$A \to 0, A \vdash A \to 0$}
+	\R{$A \to 0, A \vdash A$}
+	\toE{$A \to 0, A \vdash 0$}
+	\botE{$A \to 0, A \vdash B$}
+	\toI{$A \to 0 \vdash A \to B$}
+	\orIl{$A \to 0 \vdash (A \to B) \lor (B \to A)$}
+	\case{$\vdash (A \to B) \lor (B \to A)$}
+	\DisplayProof	
+\end{center}
+
+\bfseries % (k)
+\item $\vdash ((A \to B) \to A) \to A$ 
+\mdseries
+\begin{center}
+	\R{$(A \to B) \to A, A \to 0 \vdash (A \to B) \to A$}
+	\R{$(A \to B) \to A, A \to 0, A \vdash A \to 0$}
+	\R{$(A \to B) \to A, A \to 0, A \vdash A$}
+	\toE{$(A \to B) \to A, A \to 0, A \vdash 0$}
+	\botE{$(A \to B) \to A, A \to 0, A \vdash B$}
+	\toI{$(A \to B) \to A, A \to 0 \vdash A \to B$}
+	\toE{$(A \to B) \to A, A \to 0 \vdash A$}
+	
+	\R{$(A \to B) \to A, A \vdash A$}
+	\case{$(A \to B) \to A \vdash A$}
+	\toI{$\vdash ((A \to B) \to A) \to A$}
+	\DisplayProof
+\end{center}
+
+\end{enumerate}
+\end{enumerate}
+
+\end{document}

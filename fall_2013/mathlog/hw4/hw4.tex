@@ -1,0 +1,68 @@
+\documentclass[10pt]{article}
+\usepackage[a4paper,margin=0.2cm]{geometry}
+\usepackage[russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{enumerate}
+
+\renewcommand{\iff}{\leftrightarrow}
+
+\begin{document}
+
+\title{Домашняя работа 4}
+\author{Антон Афанасьев}
+\maketitle
+
+\begin{enumerate}
+\item Формулы к предваренной нормальной форме
+\begin{enumerate}
+	\item $(\forall xP(x)) \lor (\forall xQ(x)) \lor (\forall xR(x)) = \forall x \forall y \forall z (P(x) \lor Q(y) \lor R(z))$
+	\item $(\forall x\exists y P(x, y)) \land Q(y) = \forall x \exists z ( P(x,z) \land Q(y))$
+	\item $(\exists w P(x)) \lor (\forall w P(w)) = \forall w (P(x) \lor P(w))$
+	\item $(\exists w (( \forall x P(x, w)) \to \forall y Q(y))) \to \exists z R(z) = (\exists w \exists x \forall y (P(x, w) \to  Q(y))) \to \exists z R(z) = \forall w \forall x ((\forall y (P(x, w) \to  Q(y))) \to \exists y R(y)) = \forall w \forall x \exists y ((P(x, w) \to  Q(y)) \to R(y))$
+\end{enumerate}
+
+\item Решетки
+\begin{enumerate}
+	\item Аксиомы в сигнатуре $(sup, inf, =)$
+	\begin{itemize}
+		\item $\forall x (sup(x, x) = x)$
+		\item $\forall x\forall y \forall z (sup(x,y) = y \land sup(y, z)=z \to sup(x, z)=z)$
+		\item $\forall x \forall y (sup(x, y)=y \land inf(x, y)=y \to x=y)$
+		\item $\forall x \forall y \exists z (sup(x, z)=z \land sup(y, z)=z \land \forall w (sup(x, w) = w \land sup(y, w)=w \to sup(w, z) =w))$
+		\item $\forall x \forall y \exists z (inf(x, z)=z \land inf(y, z)=z \land \forall w (inf(x, w) = w \land inf(y, w)=w \to inf(w, z) = w))$
+	\end{itemize}
+	Последние две аксиомы фактически задают $sup$ и $inf$. Т.к. $sup(x, y)=y \leftrightarrow x \le y$, то все $\le$ можно заменить на эту конструкцию.
+
+	
+	\item Аксиомы в сигнатуре $(sup, inf, =, \le)$
+	\begin{itemize}
+		\item $\forall x (x\le x)$
+		\item $\forall x \forall y \forall z (x \le y \to y\le z \to x \le z)$
+		\item $\forall x \forall y (x\le y \to y\le x \to x=y)$
+		\item $\forall x \forall y \forall w ( (x\le w) \to ((y\le w)\to sup(x, y) \le w))$
+		\item $\forall x \forall y \forall w ((w \le x) \to ((w \le y) \to w\le inf(x, y)))$
+		\item $\forall x \forall y (x \le sup(x, y))$
+		\item $\forall x \forall y (y \le sup(x, y))$
+		\item $\forall x \forall y (inf(x, y) \le x)$
+		\item $\forall x \forall y (inf(x, y) \le y)$
+	\end{itemize}
+\end{enumerate}
+\item Несвязное частично упорядоченное множество. Сигнатура $(=, \le,  connected)$
+	\begin{itemize}
+		\item $\forall x \forall y (connected(x, y) \iff (x \le y \lor y \le x \lor \exists z (connected(x, z) \land (connected(z, y)))))$
+		\item $\exists x \exists y (\lnot connected(x, y))$
+	\end{itemize}
+
+
+\item Неориентированный граф, у которого все циклы четной длины. Сигнатура $(=, e, evenpath, oddpath)$. $e(x, y)$ --- есть ребро между $x$ и $y$. $evenpath(x, y)$ --- есть путь четной длины, $oddpath(x, y)$ --- есть путь нечетной длины.
+	\begin{itemize}
+		\item $\forall x \forall y(evenpath(x, y) \iff \exists z ( e(x, z) \land oddpath(z, y)))$
+		\item $\forall x \forall y(oddpath(x, y) \iff (e(x, y) \lor \exists z (e(x, z) \land evenpath(z, y))))$
+		\item $\forall x (\lnot oddpath(x, x))$.
+	\end{itemize}
+	
+\end{enumerate}
+\end{document}

@@ -1,0 +1,141 @@
+\documentclass[10pt]{article}
+\usepackage[russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{enumitem}
+\usepackage[margin=2cm]{geometry}
+
+\newcommand{\rchoose}[2]{\left(\mkern-6mu \left({#1 \atop #2}\right) \mkern-6mu \right)}
+
+\begin{document}
+
+\title{Домашняя работа 4}
+\author{Антон Афанасьев}
+\maketitle
+
+\begin{enumerate}
+	\item[5.1] В случае равных корней $r_1 = r_2 =: \rho$. $\rho^2 - b_1\rho - b_2 = 0$, $\rho = \frac{b_1}{2} \Rightarrow 2\rho - b_1 = 0$
+	
+	Общее решение $a_n = c_1 \rho^n + c_2 n \rho^n$. Покажем, что оно удовлетворяет рекуррентному соотношению:
+	
+	$c_1\rho^{n+2} +c_2(n+2)\rho^{n+2} = b_1(c_1 \rho^{n+1} + c_2 (n+1) \rho^{n+1}) + b_2 (c_1 \rho^n + c_2 n\rho^n) \Leftrightarrow \\
+	c_1(\rho^2 - b_1 \rho - b_2) + c_2((n+2)\rho^2 - b_1 (n+1) \rho - b_2 n) = 0 \Leftrightarrow\\
+	c_2((n+2)\rho^2 - b_1 (n+1) \rho - b_2 n) = 0 \Leftrightarrow\\
+	c_2(n(\rho^2 - b_1 \rho - b_2) + 2\rho^2 - b_1 \rho) = 0 \Leftrightarrow \\
+	c_2(2\rho^2 - b_1\rho) = 0 \Leftrightarrow \\
+	c_2 \rho ( 2\rho - b_1) \equiv 0$
+	
+	Покажем, что всегда можно подобрать константы $c_1,\ c_2$:\\
+	$a_0 = c_1 \rho^0 + c_2 \cdot 0 \cdot \rho ^0 = c_1\\
+	 a_1 = c_1 \rho^1 + c_2 \cdot 1 \cdot \rho ^1 = c_1 \rho+ c_2 \rho$\\
+	 Эта система всегда имеет хотя бы одно решение, кроме случая, когда $\rho = 0$, а $a_1 \neq 0$. Но если $\rho = 0$, то $b_1 = 0,\ b_2 = 0$, а значит $a_n \equiv 0$ для любых начальных условий. Если при этом $a_1 \neq 0$ такое общее решение не работает.
+	
+	В случае комплексных корней. Пусть один из корней --- $z = \rho \cos(\vartheta) + i\rho\sin(\vartheta)$, тогда\\
+	$z^2 - b_1 z - b_2 = 0 \Rightarrow z^{n+2} - b_1 z^{n+1} - b_2 z^n = 0 \Rightarrow \\
+	\rho^{n+2}\cos((n+2)\vartheta) + i\rho^{n+2}\sin((n+2)\vartheta) + b_1 \rho^{n+1}\cos((n+1)\vartheta) + i b_1\rho^{n+1}\sin((n+1)\vartheta) + b_2\rho^n\cos(n\vartheta) + i b_2 \rho^n\sin(n\vartheta) = 0 \Rightarrow\\
+	\rho^2\cos((n+2)\vartheta) + b_1\rho\cos((n+1)\vartheta) + b_2\cos(n\vartheta) + i[\rho^2\sin((n+2)\vartheta) + b_1 \rho\sin((n+1)\vartheta) + b_2 \sin(n\vartheta)] = 0 \Rightarrow\\
+	\rho^2\cos((n+2)\vartheta) + b_1\rho\cos((n+1)\vartheta) + b_2\cos(n\vartheta) = 0 \text{ и } \rho^2\sin((n+2)\vartheta) + b_1 \rho\sin((n+1)\vartheta) + b_2 \sin(n\vartheta)=0
+	$
+	
+	Общее решение $a_n = c_1 \rho^n \cos(n\vartheta) + c_2 \rho^n\sin(n\vartheta)$. Покажем, что оно удовлетворяет рекуррентному соотношению:
+	
+	$c_1 \rho ^{n+2}\cos((n+2)\vartheta) + c_2 \rho^{n+2} \sin((n+2)\vartheta) = b_1(c_1 \rho ^{n+1}\cos((n+1)\vartheta) + c_2 \rho^{n+1} \sin((n+1)\vartheta)) + b_2(c_1 \rho ^{n}\cos(n\vartheta) + c_2 \rho^n \sin(n\vartheta) \Leftrightarrow\\
+	c_1(\rho^2 \cos((n+2)\vartheta) + b_1\rho\cos((n+1)\vartheta) + b_2\cos(n\vartheta)) + c_2(\rho^2\sin((n+2)\vartheta) + b_1\rho\sin((n+1)\vartheta) + b_2\sin(n\vartheta)) \equiv 0$
+	
+	Покажем, что всегда можно подобрать константы $c_1,\ c_2$:\\
+	$a_0 = c_1 \rho^0\cos(0\cdot \vartheta) + c_2 \rho^0 \sin(0\cdot \vartheta) = c_1\\
+	a_1 = c_1 \rho^1\cos(1\cdot \vartheta) + c_2 \rho^1 \sin(1\cdot \vartheta) = c_1 \rho \cos(\vartheta) + c_2 \rho\sin(\vartheta)$
+	
+	Эта система всегда имеет хотя бы одно решение, кроме случая, когда $\rho = 0$ или $\vartheta = 0$. Однако, если $\rho = 0$, то оба корня характеристического уравнения равны 0, а значит, на самом деле это предыдущий случай. Если $\vartheta = 0$, то у обоих корней мнимая часть равна 0, а значит, они оба равны действительному числу, следовательно, на самом деле это также предыдущий случай.
+	
+	\item[5.2]\ 
+	\begin{itemize}
+		\item $a_{n+2} = 7a_{n+1} - 12 a_n$
+		
+		$r^2 - 7r + 12 = 0$\\
+		$r_1 = 3\ r_2 = 4$
+		
+		$a_n = c_1 \cdot 3^n + c_2 \cdot 4^n$
+		
+		\item $a_{n+2} = 4a_{n+1} - 13 a_n$
+		
+		$r^2 - 4r + 13 = 0$\\
+		$r_1 = 2 + i3\ r_2 = 2 - i3$\\
+		$\rho = \sqrt{13}\ \ \vartheta = \arctan(1.5)$
+		
+		$a_n = c_1 (\sqrt{13})^n\cos(n\arctan(1.5)) + c_2 (\sqrt{13})^n\sin(n\arctan(1.5))$
+		
+		\item $a_{n+2} = -4a_{n+1} - 4a_n$
+		
+		$r^2 + 4r +4 = 0$\\
+		$r_1 = r_2 = -2$
+		
+		$a_n = c_1 (-2)^n + c_2 n (-2)^n$
+	\end{itemize}
+	
+	\item[5.6] Подсчитаем число путей после $n$ шагов, если последний шаг был влево, вправо или вверх. Обозначим это как $d_n^{L},\ d_n^{R},\ d_n^{U}$.\\
+	$d_n^U = d_{n-1}^U + d_{n-1}^L + d_{n-1}^R$ (1)
+	
+	$d_n^L = d_{n-1}^U + d_{n-1}^R$ (2) 
+	
+	$d_n^R = d_{n-1}^U + d_{n-1}^L$ (3)
+	
+	Тогда:\\
+	$a_n = d_n^U + d_n^R + d_n^L$ (все пути)\\
+	$d_n^U = a_{n-1}$ (из 1)
+	
+	$a_n = a_{n-1} + d_{n-1}^U + d_{n-1}^L + d_{n-1}^U + d_{n-1}^R$ (раскрыли по 2 и 3)
+	
+	$a_n = 2a_{n-1} + d_{n-1}^U$
+	
+	$a_n = 2a_{n-1} + a_{n-2}$
+	
+	Получили рекуррентное соотношение:
+	
+	$a_{n+2} = 2a_{n+1} + a_n$
+	
+	Решим его\\
+	$r^2 - 2r - 1 = 0$\\
+	$r_1 = 1+\sqrt{2},\ r_2 = 1 - \sqrt{2}$
+	
+	Так как $a_0 = 1,\ a_1 = 3$:
+	
+	$c_1 + c_2 = 1$\\
+	$c_1 (1 + \sqrt{2}) + c_2 (1-\sqrt{2}) = 3$
+	
+	$c_1 = \frac{1+\sqrt{2}}{2},\ c_2 = \frac{1-\sqrt{2}}{2}$
+	
+	Решение:	
+	$$a_n = \frac{1+\sqrt{2}}{2}(1+\sqrt{2})^n + \frac{1-\sqrt{2}}{2}(1 - \sqrt{2})^n$$
+	
+	\item[5.9] Докажем по индукции. Для $F_1$ и $F_2$ выполняется. Пусть для всех $m \le n$ выполняется $\gcd(F_m, F_{m-1}) = 1$. Для $n+1$:\\
+	По свойствам gcd: $\gcd(a, b) = \gcd(b, a \mod b)$\\
+	Так как $F_{n+1} = F_n + F_{n-1}$, то $(F_{n+1} \mod F_n) = F_{n-1}$\\
+	Следовательно, $\gcd(F_{n+1}, F_n) = \gcd(F_n, F_{n+1} \mod F_n) = \gcd(F_n, F_{n-1}) = 1$.
+	
+	\item[5.10] Разберем сначала частный случай. Покажем, что $F_m$ делит $F_{am}$, где $a$ - натуральное число. Сделаем это по индукции по $a$. Для $a=1$ выполняется ($F_m \mid F_m$). Пусть выполняется для всех значений меньше $b$. Тогда для $b$:
+	
+	 $F_{bm} = F_{(b-1)m + m} = F_{(b-1)m-1}F_m + F_{(b-1)m} F_{m+1}$\\
+	 Т.к. $F_m \mid F_m$ и $F_m \mid F_{(b-1)m}$ (по предположению индукции), то $F_m \mid F_{bm}$. $\blacksquare$
+	
+	Отсюда следует, что $\gcd(F_m, F_{am}) = F_m = F_{\gcd(m, am)}$
+	
+	Теперь докажем оставшуюся часть того, что $\gcd(F_n, F_m) = F_{\gcd(n, m)}$.\\
+	Докажем по индукции сначала по m ($1 \le m$), потом по n ($n \ge m$). Первая индукция: для $m=1$ утверждение выполняется: $\gcd(F_n, F_1) = \gcd(F_n, 1) = F_n = F_{\gcd(n, 1)}$. Пусть выполняется для всех чисел меньших $m$, тогда для $m$:
+	
+	  Вторая индукция: для $m=n$ очевидно выполняется. Пусть выполняется для всех чисел меньше $n$, Тогда для $n$:
+	
+	Т.к. $n > m$ представим $n$ в виде $n = am +b$. Пусть $b=0$, тогда этот частный случай мы уже разобрали. Пусть теперь $b\neq0$.
+	
+	  Рассмотрим $\gcd(F_n, F_m) = \gcd(F_{am+b}, F_m) = \gcd(F_{am-1}F_b + F_{am}F_{b+1}, F_m)$. Так как $F_m \mid F_{am}$, и $\gcd(a, b)=\gcd(a-b, b)$, если $a>b$, то $\gcd(F_{am-1}F_b + F_{am}F_{b+1}, F_m) = \gcd(F_{am-1}F_b, F_m)$.\\
+	Т.к. $am-1 < n$ для $am-1$ выполняется предположение индукции, а значит\\ $\gcd(F_{am-1}, F_m) = F_{\gcd(am-1, m)} = F_1 = 1$
+	
+	По свойствам gcd: если $\gcd(t, q)=1$, то $\gcd(tp, q) = \gcd(p, q)$.
+	
+	Значит, $\gcd(F_n, F_m) = \gcd(F_{am-1}F_b, F_m) = \gcd(F_b, F_m) = F_{\gcd(b, m)}$ ($b<m$). Но $b= n\mod m$, а значит $\gcd(b, m) = \gcd(n \mod m, m) = \gcd(n, m)$.
+	
+	Итак, $\gcd(F_n, F_m) = F_{\gcd(n, m)}$. Что и требовалось доказать.
+\end{enumerate}
+\end{document}

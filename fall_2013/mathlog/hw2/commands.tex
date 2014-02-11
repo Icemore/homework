@@ -1,0 +1,17 @@
+\usepackage{bussproofs}
+
+\renewcommand{\bot}{0}
+\renewcommand{\iff}{\leftrightarrow}
+\newcommand{\ax}{\AxiomC}
+\newcommand{\R}[1]{\ax{} \RightLabel{$R$} \UnaryInfC{#1}}
+\newcommand{\EM}[1]{\ax{} \RightLabel{$E.M.$} \UnaryInfC{#1}}
+\newcommand{\toI}[1]{\RightLabel{$\to intro$} \UnaryInfC{#1}}
+\newcommand{\toE}[1]{\RightLabel{$\to elim$} \BinaryInfC{#1}}
+\newcommand{\andI}[1]{\RightLabel{$\land intro$} \BinaryInfC{#1}}
+\newcommand{\andEl}[1]{\RightLabel{$\land elim_1$} \UnaryInfC{#1}}
+\newcommand{\andEr}[1]{\RightLabel{$\land elim_2$} \UnaryInfC{#1}}
+\newcommand{\orIl}[1]{\RightLabel{$\lor intro_1$} \UnaryInfC{#1}}
+\newcommand{\orIr}[1]{\RightLabel{$\lor intro_2$} \UnaryInfC{#1}}
+\newcommand{\orE}[1]{\RightLabel{$\lor elim$} \TrinaryInfC{#1}}
+\newcommand{\botE}[1]{\RightLabel{$\bot\ elim$} \UnaryInfC{#1}}
+\newcommand{\case}[1]{\RightLabel{$cases$} \BinaryInfC{#1}}
