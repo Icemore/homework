@@ -1,0 +1,63 @@
+\documentclass[10pt]{article}
+\usepackage[russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{enumerate}
+\usepackage[margin=2cm]{geometry}
+
+\begin{document}
+
+\title{Домашняя работа 1}
+\author{Антон Афанасьев}
+\maketitle
+
+\begin{enumerate}
+	\item
+	\begin{enumerate}
+		\item $
+		(\lambda x y z.zyx)yz(\lambda pq.q) \to 
+		(\lambda pq.q)zy \to
+		y
+		$
+		
+		\item $
+		(\lambda y z.zy)((\lambda x.xxx)(\lambda x.xxx))(\lambda y.xxx) \to
+		(\lambda y.xxx)((\lambda x.xxx)(\lambda x.xxx)) \to
+		xxx
+		$
+		
+		\item 
+		$\bar 1 \bar 1 = (\lambda xy.xy)(\lambda xy.xy) \to \lambda y (\lambda xy.xy)y \to \lambda y (\lambda xz.xz) y \to \lambda y(\lambda z.yz) \to \lambda xy.xy = \bar 1$
+		
+		$
+		(\lambda xyz.x(x(y(y(zz)))))(mul\ \bar 2) suc\ \bar 1 \to
+		(mul\ \bar 2)((mul\ \bar 2)(suc(suc(\bar 1 \bar 1)))) \to
+		(mul\ \bar 2)((mul\ \bar 2)(suc(suc\ \bar 1))) \to
+		(mul\ \bar 2)((mul\ \bar 2)(suc\ \bar 2)) \to
+		(mul\ \bar 2)(mul\ \bar 2\ \bar 3) \to
+		mul\ \bar 2\ \bar 6 \to
+		\overline{12}
+		$
+		
+		\item $	
+		SKSKSK \to
+		KK(SK)SK \to
+		KSK \to
+		S
+		$
+	\end{enumerate}
+	
+	\item 
+	$iszero = \lambda x.x (\lambda y.false) true$
+	\begin{enumerate}
+		\item $ge = \lambda ab . iszero (a\ pred\ b)$
+		\item $am = \lambda ab . if (ge\ a\ b) (b\ pred\ a) (a\ pred\ b)$
+	\end{enumerate}
+	
+	\item $pow = \lambda xy . y (mul\ x) \bar 1$
+
+\end{enumerate}
+
+\end{document}
