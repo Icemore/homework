@@ -1,0 +1,65 @@
+\documentclass[10pt]{article}
+\usepackage[russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{enumerate}
+\usepackage[margin=2cm]{geometry}
+
+\newcommand{\eb}{=_\beta}
+\newcommand{\tob}{\to_\beta}
+
+\begin{document}
+
+\title{Домашняя работа 2}
+\author{Антон Афанасьев}
+\maketitle
+
+\begin{enumerate}
+	\item[1.]
+	\begin{enumerate}
+		\item $F \eb \lambda x.F \eb (\lambda fx.f)F$
+		
+		 $F = Y(\lambda fx. f)$
+		 
+		\item $F \eb \lambda mn.nF(nmF) \eb (\lambda fnm.nf(nmf))F$
+		
+		$F = Y(\lambda fnm.nf(nmf))$
+		
+		\item $F \eb \lambda t. FIKS \eb (\lambda ft. fIKS)F$
+		
+		$F = Y(\lambda ft.fIKS)$
+		
+		\item $F = \lambda x. I$
+		
+		\item $G \eb BFG \eb (\lambda g. BFg)G$
+		
+		$G = Y(\lambda g.BFg)$
+		
+		$F \eb AFG \eb AF(Y(BF)) \eb (\lambda f.Af(Y(Bf)))F$
+		
+		$F = Y(\lambda f. Af(Y(Bf)))$
+	\end{enumerate}
+	
+	\item[3.] $sum = R\ \bar 0\ (\lambda i. plus\ (suc\ i))$
+	
+	\item[4.]
+	\begin{enumerate}
+		\item $A = Y(\lambda fmn. if\ (iszero\ m)\ (suc\ n)\ (if\ (iszero\ n)\ (f\ (pred\ m)\ \bar 1)\ (f\ (pred\ m)\ (f\ m\ (pred\ n)))))$
+	\end{enumerate}
+	
+	\item[5.]
+	\begin{itemize}
+		\item $nil = \lambda cb.c$
+		\item $isempty = \lambda x.x\ (\lambda ab.false)\ true$
+		\item $head = \lambda x. x\ (\lambda ab.a)\ nil$
+		\item $append = \lambda xy. \lambda cb(x\ c\ (y\ c\ b))$
+		\item $cons = \lambda xy. \lambda cb.c\ x\ (y\ c\ b)$
+		\item $tail = \lambda x. snd\ (x\ (\lambda ab.pair\ (cons\ a\ nil)\ (append\ (fst\ b)\ (snd\ b)))\ (pair\ nil\ nil))$
+	\end{itemize}
+	
+	\item[6.] Возьмем $M$ и перед каждым редексом ($(\lambda\ \ldots)(\ldots)$) поставим переменную $i$ ($i(\lambda\ \ldots)(\ldots)$) и абстрагируемся по ней. Назовем то, что получилось $N$. Таким образом мы ``нейтрализуем'' все редексы, если они были. $N$ находится в $\beta$-нормальной форме, и $NI \tob M$.
+\end{enumerate}
+
+\end{document}
