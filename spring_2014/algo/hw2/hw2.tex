@@ -1,0 +1,33 @@
+\documentclass[10pt]{article}
+\usepackage[russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{enumitem}
+\usepackage[margin=2cm]{geometry}
+\usepackage{pseudocode}
+\usepackage{hyperref}
+
+\hypersetup{colorlinks=true, urlcolor=blue}
+
+\begin{document}
+
+\title{Домашняя работа 2}
+\author{Афанасьев Антон}
+\maketitle
+
+\begin{enumerate}
+	\item Код \url{http://pastebin.com/ggAxULNe} \\
+	Посылка на тимусе номер 5525017.
+	
+	\item Положим элементы с четными и нечетными номерами в два splay-дерева по неявному ключу. Будем поддерживать в них сумму в поддереве. Теперь для ответа на запрос первого типа нужно вырезать соответствующие отрезки из первого и второго дерева и поменять их местами (четные элементы становятся нечетными и наоборот). Для ответа на запрос второго типа нужно просто взять сумму на отрезке в обоих деревьях (для этого вырезав нужный отрезок и посмотрев сумму в поддереве).
+	
+	Код \url{http://pastebin.com/CWRQntt7}\\
+	Посылка на e-olymp \href{http://www.e-olimp.com/solutions/1361392}{1361392}.
+	
+
+\end{enumerate}
+
+\end{document}
+
