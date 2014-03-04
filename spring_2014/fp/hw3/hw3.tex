@@ -1,0 +1,108 @@
+\documentclass[10pt]{article}
+\usepackage[russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{enumerate}
+\usepackage[margin=2cm]{geometry}
+
+\newcommand{\eb}{=_\beta}
+\newcommand{\tob}{\to_\beta}
+\newcommand{\tod}{\to_\delta}
+\renewcommand{\l}{\lambda}
+\newcommand{\s}{\sigma}
+\newcommand{\N}{\mathbb{N}}
+
+\begin{document}
+
+\title{Домашняя работа 3}
+\author{Антон Афанасьев}
+\maketitle
+
+\begin{enumerate}
+	\item
+	\begin{enumerate}
+		\item $\l xy.xy\ :\ (\sigma \to \tau) \to \sigma \to \tau$
+		\item $\l xy.yx\ :\ \s \to (\s \to \tau) \to \tau$
+		\item $\l xx.x\ :\ \s \to \tau \to \tau$
+		\item $\l xy.x(yx)\ :\ (\tau \to \rho) \to ((\tau \to \rho) \to \tau) \to \rho$
+		\item $\l xy.xyx$ не типизируется.
+	\end{enumerate}
+	
+	\item
+	\begin{enumerate}
+		\item $\l xyzt.y(xtt)(zt)$
+		\item  $\l xyztr.z(yr)$
+		
+		 		$\l xyztr.z(xtt)$
+		\item  $\l xy.x(\l z.yzz)$
+		
+				$\l xy. x(y(x(\l z.yzz)))$ 
+				
+				$\l xy. x(y(x(y(x(\l z.yzz)))))$
+		\item $\l xy.y(x(\l z.yzz)) (x(\l z.yzz))$
+		\item $\l z.z(\l y.y(\l x.z(\l t.x))) $
+	\end{enumerate}
+	
+	\item \ \\
+	$pred = \l n^\N . R_\N\ \bar 0\ (\l x^\N y^\N. x)\ n$ 
+	
+	$iszero = \l n^\N. R_{Bool}\ true\ (\l x^\N y^{Bool}. false)\ n$ 
+	
+	$add = \l x^\N y^\N. R_{\N}\ x\ (\l t^\N r^\N. Suc\ r)\ y$ 
+	
+	$mul = \l x^\N y^\N. R_{\N}\ \bar 0\ (\l t^\N r^\N. add\ x\ r)\ y$
+	
+	\begin{enumerate}
+		\item $ge = \l x^\N y^\N.iszero\ (R_{\N}\ y\ (\l t^\N r^\N. pred\ r)\ x)$
+		\item $fact = \l x^\N. R_{\N}\ \bar 1\ (\l t^\N r^\N. mul\ (Suc\ t)\ r)\ x$
+	\end{enumerate}
+
+	\item 
+	\begin{enumerate}
+		\item $Pair_{\s, \tau}$
+		
+		Константы
+		\begin{itemize}
+			\item $\Gamma \vdash makePair_{\s,\tau}\ :\ \s \to \tau \to Pair_{\s, \tau}$
+			\item $\Gamma \vdash fst_{\s, \tau}\ :\ Pair_{\s, \tau} \to \s$
+			\item $\Gamma \vdash snd_{\s, \tau}\ :\ Pair_{\s, \tau} \to \tau$
+		\end{itemize}
+		
+		Правила редукции
+		\begin{itemize}
+			\item $fst_{\s, \tau}\ (makePair_{\s, \tau}\ F\ G) \tod F$
+			\item $snd_{\s, \tau}\ (makePair_{\s, \tau}\ F\ G) \tod G$
+		\end{itemize}
+		
+		\item $List_{\s}$
+		
+		Константы
+		\begin{itemize}
+			\item $\Gamma \vdash nil_\s\ :\ List_\s$
+			\item $\Gamma \vdash cons_\s\ :\ \s \to List_\s \to List_\s$
+			\item $\Gamma \vdash R_{\s,\tau}\ :\ \tau \to (\s \to \tau \to \tau) \to List_\s \to \tau$
+		\end{itemize}
+		
+		Правила редукции
+		\begin{itemize}
+			\item $R_{\s, \tau}\ F\ G\ nil_\s \tod F$
+			\item $R_{\s, \tau}\ F\ G\ (cons\ e\ L) \tod G\ e\ (R_{\s, \tau}\ F\ G\ L)$
+		\end{itemize}
+	\end{enumerate}
+	
+	\item 
+	
+	$append_\s = \l lt. R_{\s,List_\s}\ t\ (\l xr. cons_\s\ x\ r)\ l$
+	
+	$getUpper = \l xl. R_{\N,List_\N}\ nil_\N\ (\l yt. if\ (ge\ y\ x)\ (cons_\N\ y\ t)\ t)\ l$ 
+	
+	$getLower = \l xl. R_{\N,List_\N}\ nil_\N\ (\l yt. if\ (ge\ y\ x)\ t\ (cons_\N\ y\ t))\ l$ 
+	
+	$insert = \l xl. append_\N\ (getLower\ x\ l)\ (cons_\N\ x\ (getUpper\ x\ l))$ 
+	
+	$sort = \l l. R_{\N,List_\N}\ nil_\N\ (\l xr. insert\ x\ r)\ l$
+\end{enumerate}
+
+\end{document}
