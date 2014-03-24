@@ -1,0 +1,43 @@
+\documentclass[10pt]{article}
+\usepackage[russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{enumitem}
+\usepackage[margin=2cm]{geometry}
+\usepackage{pseudocode}
+\usepackage{hyperref}
+
+\hypersetup{colorlinks=true, urlcolor=blue}
+
+\begin{document}
+
+\title{Домашняя работа 5}
+\author{Афанасьев Антон}
+\maketitle
+
+\begin{enumerate}
+	\item[1.] Пусть $\mathcal{H}$ --- 2-независимое семейство хэш-функций.
+	$$Pr[h(x_1) = h(x_2)] = \sum_{y \in Y} Pr[h(x_1) = y \land h(x_2) = y] = \sum_{y \in Y} \frac{1}{|Y|^2} = \frac{1}{|Y|}$$
+	Следовательно, $\mathcal{H}$ --- универсальное семейство хэш-функций.
+	
+	Для примера универсального, но не 2-независимого множества рассмотрим $X=\{ x_1, x_2 \}$, $Y=\{y_1, y_2 \}$. Возьмем функции\\ $h_1(x_1) = y_1,\ h_1(x_2) = y_1$.\\
+$h_2(x_2) = y_1,\ h_2(x_2) = y_2$.
+
+Можно видеть, что семейство из этих двух функций универсальное, но не 2-независимое.
+
+	\item[2.] Пусть 
+		$$Pr \left [ \bigwedge_{i=1}^k h(x_i) = y_i \right ] = \frac{1}{|Y|^k}$$
+		Тогда 
+		$$Pr \left [ \bigwedge_{i=1}^{k-1} h(x_i) = y_i \right ] = \sum_{y \in Y} Pr \left [ h(x_k) = y \land \bigwedge_{i=1}^{k-1} h(x_i) = y_i \right ] = \sum_{y \in Y} \frac{1}{|Y|^k} = \frac{1}{|Y|^{k-1}}$$
+	
+	\item[3.] Зафиксируем $x_1, x_2, y_1, y_2$. Подсчитаем сколько функций из $\mathcal{H}$ удовлетворяют условию $h(x_1) = y_1 \land h(x_2) = y_2$. Для этого должны выполнятся условия\\
+	$a \cdot x_1 + b = y_1\ \mod p$\\
+	$a \cdot x_2 + b = y_2\ \mod p$\\
+	Так как $p$ --- простое, то $\mathbb{Z}_p$ --- поле, и эта система уравнений имеет единственное решение. Значит, условие выполнится только для одной функции. Всего функций $p^2$, следовательно 
+	$$Pr[h(x_1) = y_1 \land h(x_2) = y_2] = \frac{1}{p^2}$$
+	Значит, $\mathcal{H}$ --- 2-независимое семейство.
+\end{enumerate}
+
+\end{document}
