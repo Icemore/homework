@@ -1,0 +1,54 @@
+\documentclass[10pt]{article}
+\usepackage[russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{enumitem}
+\usepackage[margin=2cm]{geometry}
+\usepackage{relsize}
+
+\newcommand{\rchoose}[2]{\left(\mkern-6mu \left({#1 \atop #2}\right) \mkern-6mu \right)}
+\newcommand{\dsum}{\sum_{\substack{ k\le n \\ k - \text{нечетное}}}}
+\renewcommand{\P}{\text{Pr}}
+
+\begin{document}
+
+\title{Домашняя работа 3}
+\author{Антон Афанасьев}
+\maketitle
+
+\begin{enumerate}
+	\item[5.2] Производящее функция для действия ``взять блок размера хотя бы два, и ничего с ним больше не делать'' $F(z) = e^z - z - 1$.
+	
+	Разбиваем на произвольное число блоков и в каждом делаем действие $F(z)$: $H(z) = e^{e^z -z -1}$. Производящая функция чисел Белла $B(z) = e^{e^z - 1}$.\\
+	$H(z) = e^{e^z -z -1} = e^{e^z - 1} \cdot e^{-z} = B(z) \cdot e^{-z}$\\
+	$e^{-z} = \sum_{n=0}^{\infty} (-1)^n \frac{z^n}{n!}$
+	
+	Перемножая экспоненциальные функции получим коэффициенты для $H(z)$
+	
+	$$c_n = \sum_{i=0}^n \binom{n}{i} \cdot B_i \cdot(-1)^{n-i}$$
+	
+	\item[5.3] Будем считать, что мы делаем следующие действия --- разбить $n$ различимых элементов на  неразличимые блоки, в каждом блоке четного размера $i$ упорядочить все $i!$ способами, а затем упорядочить все блоки факториалом способов.
+	
+	Производящая функция для действий внутри блоков:
+	$$F(z) = z^2 + z^4 + z^6 + \ldots = \frac{z^2}{1 - z^2}$$
+	Производящая функция для действий над блоками:
+	$$G(z) = 1 + z^1 + z^2 + \ldots = \frac{1}{1-z}$$
+	$$H(z) = G(F(z)) = \frac{1}{1 - \frac{z^2}{1-z^2}} = \frac{1 - z^2}{1 - 2 z^2} = (1-z^2) \frac{1}{1-2z^2} = (1-z^2) \sum_{n=0}^{\infty} \left ( 2 z^2 \right ) ^ n = (1-z^2) \sum_{n=0}^{\infty} 2^n z^{2n}$$
+	$$H(z) = \sum_{n=0}^{\infty} 2^n z^{2n}  - \sum_{n=0}^{\infty} 2^n z^{2n + 2}$$
+	
+	Коэффициент при $z^n$, если $n$ четное: $2^{n/2} - 2^{(n-2)/2} = 2^{n/2 - 1}$.
+	
+	Таким образом, коэффициенты $H(z)$, с учетом того, что это экспоненциальная производящая функция:
+	$$
+	c_n = 
+		\begin{cases}
+			n! \cdot 2^{n/2 - 1},&\text{если n четное}\\
+			0,&\text{если n нечетное}
+		\end{cases}
+	$$
+	
+	\item[6.3] Каждое слагаемое соответствует количеству разбиений $n$-элементного множества на такие блоки, что число блоков размера $i$ равно $k_i$, $1 \le i \le n$.
+\end{enumerate}
+\end{document}
