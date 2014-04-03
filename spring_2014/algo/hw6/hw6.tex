@@ -1,0 +1,29 @@
+\documentclass[10pt]{article}
+\usepackage[russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{enumitem}
+\usepackage[margin=2cm]{geometry}
+\usepackage{relsize}
+
+\newcommand{\rchoose}[2]{\left(\mkern-6mu \left({#1 \atop #2}\right) \mkern-6mu \right)}
+\newcommand{\dsum}{\sum_{\substack{ k\le n \\ k - \text{нечетное}}}}
+\renewcommand{\P}{\text{Pr}}
+
+\begin{document}
+
+\title{Домашняя работа 6}
+\author{Антон Афанасьев}
+\maketitle
+
+\begin{enumerate}
+	\item[(a)] Так как хэш присваивается ключам независимо, то для $n$ ключей у нас есть $\binom{n}{k}$ способов выбрать каким ключам будет присвоено значение $x$. $k$ этих ключей примут значение $x$ с вероятностью $\left ( \frac{1}{n} \right ) ^k$, а остальные примут какое-то другое значение с вероятностью $\left ( 1- \frac{1}{n} \right ) ^ {n-k} $.
+	
+	Итого, $$Q_k = \binom{n}{k} \cdot \left ( \frac{1}{n} \right ) ^k \cdot \left ( 1- \frac{1}{n} \right ) ^ {n-k} $$
+	
+	\item[(b)] Чтобы самая длинная цепочка была длины $k$, в какой-то ячейке она должна быть такой длины, а во все остальных --- меньше. Тогда, $P_k = \sum_{x=1}^n Q_k \cdot T_k$, где $T_k$ --- вероятность, что в остальных ячейках цепочки меньшей длины.
+		$$P_k \le \sum_{x=1}^n Q_k \le n\cdot Q_k$$
+\end{enumerate}
+\end{document}
