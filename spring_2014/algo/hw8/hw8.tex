@@ -1,0 +1,33 @@
+\documentclass[10pt]{article}
+\usepackage[russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{enumitem}
+\usepackage[margin=2cm]{geometry}
+\usepackage{relsize}
+
+\newcommand{\rchoose}[2]{\left(\mkern-6mu \left({#1 \atop #2}\right) \mkern-6mu \right)}
+\newcommand{\dsum}{\sum_{\substack{ k\le n \\ k - \text{нечетное}}}}
+\renewcommand{\P}{\text{Pr}}
+
+\begin{document}
+
+\title{Домашняя работа 7}
+\author{Антон Афанасьев}
+\maketitle
+
+\begin{enumerate}
+	\item[3.] Пусть $N = q \cdot p$, $\phi = (q-1) \cdot (p-1)$, $e \cdot d = 1\mod \phi$. \\
+	$N,\ e,\ d$ известны и $e=3$.\\
+	$\phi = (q-1) \cdot (p-1) = n - (p+q) +1$\\
+	Так как $3d = 1 \mod \phi$, то $3d - r \phi = 1$. Причем $r$ небольшое, если $d < \phi$, то $r < 3$. Не уверен, должно ли выполняться $d < \phi$, но в любом случае $d < N$, и $r$ не больше четырех. Тогда, для всех возможных $r$ найдем соответствующую $\phi = \frac{3d - 1}{r}$. Из него найдем сумму $k = p + q = n - \phi + 1$.\\
+	Теперь мы знаем сумму и произведение $p$ и $q$. Найдем $p$ бинарным поиском. Из суммы $q = k- p$, функция $p \cdot (k-p)$ монотонна на отрезке $[0, k/2]$. Найдем точку в которой она равна $n$.
+	
+	\item[4.]  Подсчитаем число $k$. $p$ входит в качестве сомножителя в $1 \cdot 2 \cdot 3 \ldots n$ в каждое $p$-ое число. Всего таких чисел $\frac{n}{p}$. Мы не посчитали числа, в которые $p$ входит в качестве сомножителя два раза, это каждое $p^2$ число. Таких чисел $\frac{n}{p^2}$. Продолжая так же получим, что $k = \frac{n}{p} + \frac{n}{p^2} + \frac{n}{p^3} + \ldots$. Слагаемых порядка $\log n$, каждое из них мы умеем считать за время $O(poly(\log n))$.
+	Подсчитаем теперь $\alpha$. Для этого будем считать факториал по модулю $p$ без учета вхождений $p$. $n! \mod p = 1 \cdot 2 \cdot \ldots \cdot (p-1) \cdot 1 \cdot 1 \cdot 2 \ldots \cdot (p-1) \cdot 2 \cdot 1 \cdot 2 \ldots$. Получается $\frac{n}{p}$ ``целых'' групп, и хвост длиной $n \mod p$. Хвост посчитаем просто за линию от $p$. В каждой группе есть общая часть $1 \cdot 2 \cdot \ldots \cdot (p-1)$, ее тоже подсчитаем за линию. Помимо общей части в каждой группе осталось еще по одному числу. Эти числа соответствуют остаткам от деления на $p$ чисел виде $k \cdot p$ без учета вхождений $p$. Заметим, что произведение этих чисел является факториалом $\frac{n}{p}$ модулю $p$ без учета вхождений $p$. Таким образом будем считать факториал рекурсивно. Глубина рекурсии $O(\log n)$.
+	
+	Таким образом мы подсчитаем все за $O(poly(\log n))$
+\end{enumerate}
+\end{document}
