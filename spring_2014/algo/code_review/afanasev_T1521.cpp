@@ -1,4 +1,4 @@
-// problem 1521 run 5653742
+// problem 1521 run 5655669
 
 #include <iostream>
 #include <random>
@@ -27,6 +27,10 @@ struct node {
 	int prior;
 	node* left;
 	node* right;
+
+private:
+	node(node const & other);
+	node& operator=(node const & other);
 };
 
 int getCnt(node* x) {
@@ -103,6 +107,7 @@ int main() {
 		std::cout << mid->val + 1 << " ";
 
 		root = merge(left, right);
+		delete mid;
 	}
 
 	delete root;
