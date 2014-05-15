@@ -1,0 +1,38 @@
+\documentclass[10pt]{article}
+\usepackage[russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{enumitem}
+\usepackage[margin=2cm]{geometry}
+\usepackage{relsize}
+
+\newcommand{\rchoose}[2]{\left(\mkern-6mu \left({#1 \atop #2}\right) \mkern-6mu \right)}
+\newcommand{\dsum}{\sum_{\substack{ k\le n \\ k - \text{нечетное}}}}
+\renewcommand{\P}{\text{Pr}}
+
+\begin{document}
+
+\title{Домашняя работа 5}
+\author{Антон Афанасьев}
+\maketitle
+
+\begin{enumerate}
+	\item[9.1.] На рассадки людей вокруг стола действует группа $D_7$, так как мы можем их циклически упорядочивать в одну и в другую сторону. Из любой перестановки 7 чисел действуя на них $D_7$ мы можем получить одинаковое число различных перестановок равное 14. Таким образом, ответ: $\frac{7!}{14} = 360$.
+	
+	\item[10.3.] Пусть мы красим в $k$ цветов. Подсчитаем количество неподвижных точек для всех видов поворотов.
+	\begin{itemize}
+		\item $e$ --- все вершины красим независимо --- $k^6$
+		\item ось через середины граней, поворот на $90^\circ$ --- две грани остаются на месте, остальные четыре лежат на одном цикле --- $6 \cdot k^2 \cdot k$
+		\item ось через середины граней, поворот на $180^\circ$ --- две грани остаются на месте, остальные образуют два цикла длины 2 --- $3 \cdot k^2 \cdot k^2$
+		\item ось через диагонали --- два цикла длины 3 --- $8 \cdot k^2$
+		\item ось через середины ребер --- три цикла длины 2 --- $6 \cdot k^3$
+	\end{itemize}
+	
+	Итого, для покраски не более чем в $k$ цветов получаем $\frac{1}{24} \left [  k^6 + 3 \cdot k^4 + 12 \cdot k^3 + 8 \cdot k^2 \right]$.
+	
+	Для семи цветов ответ: 5390.
+	
+\end{enumerate}
+\end{document}
