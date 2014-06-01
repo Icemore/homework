@@ -1,0 +1,34 @@
+\documentclass[10pt]{article}
+\usepackage[russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{enumitem}
+\usepackage[margin=2cm]{geometry}
+\usepackage{relsize}
+
+\newcommand{\rchoose}[2]{\left(\mkern-6mu \left({#1 \atop #2}\right) \mkern-6mu \right)}
+\renewcommand{\P}[1]{\left ( 1 - \frac{1}{m} \right ) ^ {k \cdot #1} }
+\renewcommand{\not}{\overline}
+
+\begin{document}
+
+\title{Контрольная задача}
+\author{Антон Афанасьев}
+\maketitle
+
+\begin{enumerate}
+\item[1.]
+	Пусть у нас фильтры Блума с таблицей размера $m$ и с $k$ хэш-функциями. Будем считать, что при добавлении элемента каждая хэш-функция ставит 1 в ячейке с вероятностью $\frac{1}{m}$. Тогда, после $n$ добавлений, вероятность, что в ячейке будет стоять 0: $\P{n} = \not{P_n}$, а вероятность, что в ячейке будет стоять 1: $P_n = 1 - \not{P_n}$.
+	
+	Найдем вероятность 1 в ячейке пересечения фильтров Блума. 1 может стоять в ячейке благодаря тому, что она поставлена элементом из пересечения множеств. Если это не так, то 1 стоит потому, она была поставлена в одном и в другом фильтре элементами не входящими в пересечение. Таким образом, вероятность 1:
+	$$P_c + (1 - P_c) \cdot P_{n_1 - c} \cdot P_{n_2 - c}=$$
+	$$1 - \P{c} + \P{c} \cdot \left [ 1 - \P{(n_1-c)} \right ] \cdot \left [ 1 - \P{(n_2-c)} \right ] =$$
+	$$1 + \P{c} \cdot \left [ -1 + 1 - \P{(n_1 - c)} - \P{(n_2-c)} + \P{(n_1 + n_2 - 2c)} \right ] = $$
+	$$1 - \P{n_1} - \P{n_2} + \P{(n_1 + n_2 - c)}$$
+	
+	Ложное срабатывание происходит тогда, когда во всех $k$ ячейках для запрашиваемого элемента оказались 1. Следовательно, вероятность ложного срабатывания:
+	$$\left [ 1 - \P{n_1} - \P{n_2} + \P{(n_1 + n_2 - c)} \right ] ^k$$
+\end{enumerate}
+\end{document}
