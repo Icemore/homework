@@ -1,0 +1,56 @@
+\documentclass[10pt]{article}
+\usepackage[russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{enumitem}
+\usepackage[margin=2cm]{geometry}
+\usepackage{relsize}
+
+\newcommand{\rchoose}[2]{\left(\mkern-6mu \left({#1 \atop #2}\right) \mkern-6mu \right)}
+\newcommand{\dsum}{\sum_{\substack{ k\le n \\ k - \text{нечетное}}}}
+\renewcommand{\P}{\text{Pr}}
+
+\begin{document}
+
+\title{Домашняя работа 6}
+\author{Антон Афанасьев}
+\maketitle
+
+\begin{enumerate}
+\item[11.5] Так как в группе $D_n$ присутствуют все повороты из $C_n$, то первое слагаемое в цикловом индексе такое же как в индексе для $C_n$. 
+
+Помимо поворотов есть еще отражения, они дают нам второе слагаемое в цикловом индексе. Если $n$ нечетное, то есть $n$ отражений с осями проходящими через вершину и противоположную грань. Каждое такое отражение соответствует перестановке вершин с типом $x_1 \cdot x_2 ^{(n-1)/2}$ (одна вершина остается на месте, остальные переходят в противоположную). Если $n$ четное, то есть $n/2$ отражений с осями проходящими через противоположные грани, соответствуют перестановкам $x_2^{n/2}$ и еще столько же отражений с осями через противоположные вершины, соответствуют перестановкам $x_1^2 x_2^{n/2-1}$.
+
+Суммируя значения и деля их на $2n$ получит цикловый индекс $D_n$.
+
+\item[12.1] Построим энумератор множества геометрически различных способов окраски ожерелья не более чем в два цвета.
+
+	Нам известно, что $Z_{C_n}(x_1, x_2, \ldots, x_n) = \frac{1}{n} \sum_{d|n} \phi(d) \cdot x_d^{n/d}$. Энумератор множества цветов $w(Y) = r + b$. Тогда, энумератор непомеченных раскрасок:
+	$$W = Z_{C_n}(r+b, r^2+b^2, \ldots, r^n+b^n) = \frac{1}{n} \sum_{d|n}\phi(d) (r^d + b^d)^{n/d} = \frac{1}{n} \sum_{d|n} \phi(d) \cdot \sum_{i=0}^{n/d} \binom{n/d}{i} r^{id} \cdot b^{d(n/d-i)}$$
+	
+	Найдем отсюда число раскрасок, в которых есть ровно $k$ вершин цвета $r$. Для этого найдем коэффициент перед $r^k$ (без учета $b$). Степень $k$ у $r$ встречается, когда $id = k$. Будем перебирать $d$, тогда $i = k/d$ ($i \le n/d$, т.к. $k\le n$), при этом $d | k$. Получаем, что коэффициент перед $r^k$ равен
+	$$\frac{1}{n} \sum_{\substack{d | n\\d|k}} \phi(d) \binom{n/d}{k/d} = \frac{1}{n} \sum_{d | \gcd(n, k)} \phi(d) \binom{n/d}{k/d}$$
+	
+\item[13.2] Продифференцируем уравнение на производящую функцию для корневых непомеченных деревьев:
+$$a(z) = z \exp \left (a(z) + \frac{a(z^2)}{2} + \ldots + \frac{a(z^n)}{n} + \ldots \right)$$
+$$a'(z) =  \exp \left (a(z) + \frac{a(z^2)}{2} + \ldots \right) + z \cdot \exp \left (a(z) + \frac{a(z^2)}{2} + \ldots \right) \cdot \left (a'(z) + za'(z^2) + \ldots + z^{n-1} a'(z^n) + \ldots \right) = $$
+$$ = \exp \left (a(z) + \frac{a(z^2)}{2} + \ldots \right) \left (1 + z a'(z) + z^2 a'(z^2) + \ldots + z^{n} a'(z^n) + \ldots \right)$$
+$$a'(z) = \frac{a(z)}{z} \cdot \left ( 1 + \sum_{n=1}^\infty z^n a'(z^n) \right)$$
+
+Распишем через $a_n$
+$$\sum_{n=1}^\infty n \cdot a_n \cdot z^{n-1} = \left ( \sum_{n=1}^\infty a_n \cdot z^{n-1} \right ) \cdot \left (1 + \sum_{n=1}^\infty \sum_{d=1}^\infty d \cdot a_d \cdot z^{dn} \right)$$
+
+Найдем слева и справа коэффициент при $z^n$. Слева он равен $(n+1) a_{n+1}$, справа перемножим производящие функции по правилу. Обозначим коэффициенты производящей функции во второй скобке как $t_i$
+$$(n+1) a_{n+1} = \sum_{i=0}^n a_{n+1-i} \cdot t_i$$
+Т.к. $t_0 = 1$
+$$(n+1) a_{n+1} = a_{n+1} + \sum_{i=1}^n a_{n+1-i} \cdot t_i$$
+$$n a_{n+1} = \sum_{i=1}^n a_{n+1-i} \cdot t_i$$
+Найдем $t_i$ --- коэффициент при $z^i$. Внутри сумм $z^i$ встречается тогда, когда $i = dn$. Будем перебирать $d$, при этом $n = i/d$ и $d$ должно делить $i$. Таким образом,
+$$t_i = \sum_{d|i} d \cdot a_d$$
+Итак,
+$$n a_{n+1} = \sum_{i=1}^n a_{n+1-i} \cdot \sum_{d|i} d \cdot a_d$$
+$$a_{n+1} = \frac{1}{n} \sum_{i=1}^n a_{n+1-i} \cdot \sum_{d|i} d \cdot a_d$$
+\end{enumerate}
+\end{document}
