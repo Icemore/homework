@@ -23,7 +23,11 @@ object SchemeMain extends App {
   def printCanvas(a : Canvas) = print(a.map(_.mkString).mkString("\n"))
 
   def draw(s : Scheme) : Canvas = s match {
-    case Res(v) => Array(Array('|', (v + '0').toChar, '|')).transpose
+    case Res(v) =>
+      val strVal = v.toString + (if (v.toString.length % 2 == 0) " " else "")
+      val conn = " " * (strVal.length / 2)
+      val connArray = (conn + '|' + conn).toCharArray
+      Array(connArray, strVal.toCharArray, connArray)
 
     case Par(s1, s2) =>
       val d1 = draw(s1)
@@ -60,7 +64,7 @@ object SchemeMain extends App {
   val s =
     Par(
       Seqq(
-        Res(4),
+        Res(42345),
         Res(0)
       ),
       Par(
@@ -68,10 +72,10 @@ object SchemeMain extends App {
         Par(
           Seqq(
             Par(
-              Res(1),
-              Res(0)
+              Res(10),
+              Res(90)
             ),
-            Res(7)
+            Res(7987)
           ),
           Res(4)
         )
