@@ -1,0 +1,72 @@
+\documentclass[10pt]{article}
+\usepackage[russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{enumitem}
+\usepackage[margin=1cm]{geometry}
+\usepackage{relsize}
+
+\newcommand{\rchoose}[2]{\left(\mkern-6mu \left({#1 \atop #2}\right) \mkern-6mu \right)}
+\newcommand{\dsum}{\sum_{\substack{ k\le n \\ k - \text{нечетное}}}}
+\renewcommand{\P}{\text{Pr}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\dto}{\Rightarrow}
+
+\begin{document}
+
+\title{Формальные грамматики \\ Домашняя работа 1}
+\author{Антон Афанасьев}
+\maketitle
+\begin{enumerate}
+	\item[1.] Язык палиндромов $L_1 = \{ w \in \{a, b\}^* \mid w = w^R\}$
+		
+		$S \to aSa \mid bSb \mid a \mid b \mid \eps$
+		
+		Строка $ababa$:
+		\begin{itemize}
+			\item $S \dto aSa \dto abSba \dto ababa$
+			\item 
+				$\varphi^0(\bot) = \varnothing$ \\
+				$\varphi^1(\bot) = \{\eps, a, b\}$ \\
+				$\varphi^2(\bot) = \{\eps, a, b, aa, bb, aaa, bab, aba, bbb\}$ \\ 
+				$\varphi^3(\bot) = \{\eps, a, b, aa, bb, aaa, bab, aba, bbb, aaaa, baab, abba, bbbb, aaaaa, baaab, aabaa, babab, \underline{ababa}, bbabb, abbba, bbbbb\}$
+		\end{itemize}
+		
+	\item[2.] Не существует обыкновенной грамматика для языка $L_2=\{ a^{k_1} b \ldots a^{k_n} b \mid n \geqslant 1, 0 \leqslant k_1 \leqslant \ldots \leqslant k_n \}$. Докажем это при помощи леммы о накачке. Предположим, что обыкновенная грамматика существует. Тогда, по лемме о накачке, существует $p$, такое что для любой строки есть разбиение $xuyvz$, такое что $xu^iyv^iz \in L_2$. 
+	
+	Рассмотрим строку $a^p b a^p b a^p b$ и ее возможные разбиения.
+	\begin{itemize}
+		\item Пусть $u$ и $v$ не содержат буквы $b$. Тогда, если $u$ и $v$ попадают в первые два блока их можно накачать и получать больше $a$ чем в последнем. Если они попадают в последние два блока, то можно их удалить и получить в первом блоке больше символов чем в следующих. Таким образом, в этих случаях накачанная строка не будет принадлежать языку.
+		\item Пусть $u$ или $v$ содержат $b$. Они не могут содержать блок целиком, иначе их суммарная длина была бы больше $p$. Пусть тогда $u = a^t b a^r$ при повторении $u^2 = a^t b a^r a^t b a^r$. Так как при таких действиях количество $a$ в первом блоке не уменьшается, то длина $a^ra^t$ тоже должна быть по крайней мере $p$, то есть $r+t = p$. Но тогда длина $u$ должна быть больше $p$, чего быть не может. Можно заметить, что в этом случае не имеет значения где находится $v$, и что для $v$ содержащее $b$ можно применить такие же рассуждения.
+	\end{itemize}
+	Таким образом, для строки $a^p b a^p b a^p b$ лемма о накачке не выполняется, следовательно обыкновенной грамматики для языка $L_2$ не существует.
+	
+	\item[3.] $L_2=\{ a^{k_1} b \ldots a^{k_n} b \mid n \geqslant 1, 0 \leqslant k_1 \leqslant \ldots \leqslant k_n \}$
+		
+		$S \to B \mid SB\ \&\ DEb$ \\
+		$D \to BD \mid \eps$ \\
+		$B \to Ab$ \\
+		$A \to aA \mid \eps$ \\
+		$E \to aEa \mid bA$
+	
+	\item[4.] $L_3=\{c^m a^{\ell_0}b \ldots a^{\ell_{m-1}}b a^{\ell_m}b \ldots a^{\ell_z}b d^n \mid m,n, \ell_i \geqslant 0, z \geqslant 1, \ell_m=n\}$
+	
+		$S \to CD$ \\
+		$B \to aB \mid b$ \\
+		$C \to cCB \mid \eps$ \\
+		$D \to aDd \mid bE$ \\
+		$E \to BE \mid \eps$
+	
+	\item[6.] $L_4 = \{wc^{|w|} \mid w \in D\}$, где $D$ - язык Дика над алфавитом $\{a, b\}$
+	
+		Грамматика обертывания пар \\
+		$S \to (a : c) S (b : c) \mid SS \mid (\eps:\eps)$
+	
+	\item[7.] $\{ww \mid w \in \{a, b\}^*\}$
+	
+		$S(x, y) = \exists z\ T(x, z, z, y)$ \\
+		$T(x, z, r, y) = \left[ a(x+1) \land a(r+1) \land T(x+1, z, r+1, y)\right] \mathrel{\lor} \left[ b(x+1) \land b(r+1) \land T(x+1, z, r+1, y) \right] \mathrel{\lor} \left[ (x=z) \land (r=y)\right]$
+\end{enumerate}
+\end{document}
