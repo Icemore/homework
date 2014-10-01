@@ -1,14 +1,15 @@
 
 object z1 extends App {
-  var q = math.sqrt(2)
+  val helper : Stream[(BigInt, BigInt, Int)] = (BigInt(1), BigInt(1), 1) #::
+    helper.map{case (p, rem, d) =>
+      val c = rem * 100
+      val x = (0 to 9).lastIndexWhere(x => x * (20 * p + x) <= c)
+      val y = x * (20 * p + x)
 
-  val res = 1 :: (
-    for(i <- List.range(1, 20))
-      yield {
-        q = (q % 1) * 10
-        q.intValue
-      }
-    )
+      (p * 10 + x, c - y, x)
+    }
 
-  println(res)
+  def sqrt2 : Stream[Int] = helper.map{n => n._3}
+
+  sqrt2 take 50 foreach print
 }
