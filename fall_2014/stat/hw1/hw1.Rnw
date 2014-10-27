@@ -1,0 +1,80 @@
+\documentclass[10pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[russian,english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{enumerate}
+\usepackage[margin=2cm]{geometry}
+
+\begin{document}
+
+\title{Домашняя работа 1}
+\author{Антон Афанасьев}
+\maketitle
+
+<<libraries, include=FALSE>>=
+library(lattice)
+library(latticeExtra)
+library(MASS)
+
+set.seed(1328)
+@
+
+\begin{enumerate}
+\item[2.] Advertising
+
+<<analysis>>=
+df = read.csv("C://work//au//statistical learning//materials//hw/data1//Advertising.csv")
+df$X = NULL
+idx = sample(1:200, 133)
+df.train = df[idx, ]
+df.test = df[-idx, ]
+
+l = lm(Sales ~ ., data = df.train)
+pred = predict(l, df.test)
+
+my.panel = function(...) {panel.xyplot(...); panel.loess(...); panel.abline(0, 1)}
+@
+
+\newpage
+<< >>=
+xyplot(fitted(l) ~ df.train$Sales, pch = 19, panel = my.panel)
+@
+\newpage
+<< >>=
+xyplot(pred ~ df.test$Sales, pch = 19, panel = my.panel)
+@
+<< >>=
+rse = function(x1, x2) {sqrt(sum((x1 - x2)^2) / (length(x1) - 2))}
+
+rse(fitted(l), df.train$Sales)
+rse(pred, df.test$Sales)
+@
+
+Видим, что даже для тренировочной выборки наша модель сильно ошибается, особенно при низких продажах. На тестовой выборке она ошибается еще больше, что подтверждается RSE.
+
+Поубираем признаки из модели.
+
+<< >>=
+fit2 = update(l, . ~. -Newspaper)
+pred2 = predict(fit2, df.test)
+c(rse(fitted(fit2), df.train$Sales), rse(pred2, df.test$Sales))
+@
+После удаления по незначимого по t-критерию признака модель немного лучше работать на тестовых данных и почти так же на тренировочных. Похоже что признак действительно мешал в такой модели.
+<< >>=
+fit3 = update(l, . ~ . - Radio)
+pred3 = predict(fit3, df.test)
+c(rse(fitted(fit3), df.train$Sales), rse(pred3, df.test$Sales))
+
+fit4 = lm(Sales ~ 1, data = df.train)
+pred4 = predict(fit4, df.test)
+c(rse(fitted(fit4), df.train$Sales), rse(pred4, df.test$Sales))
+@
+
+После удаления значимых признаков модель становилась все хуже и хуже.
+\end{enumerate}
+
+
+\end{document}
