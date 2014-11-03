@@ -1,0 +1,25 @@
+#version 330
+
+in vs_output
+{
+   vec3 pos;
+} f_in;
+
+uniform bool is_wireframe;
+uniform vec3 center;
+uniform float add_coef;
+uniform float mult_coef;
+
+out vec3 o_color;
+
+void main()
+{
+    if(is_wireframe) {
+        o_color = vec3(1, 0, 0);
+    }
+    else {
+        float col = sin(add_coef + length(f_in.pos - center) * mult_coef);
+        o_color = vec3(col, col, col);
+    }
+}
+

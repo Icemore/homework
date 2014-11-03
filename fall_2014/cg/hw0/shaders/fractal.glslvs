@@ -1,0 +1,19 @@
+#version 330
+
+// јттрибуты - данные, зачитываемые из вершинных буферов
+// "in" - на вход идЄт аттрибут двухкомпонентный float (vec2)
+in vec2 in_pos;
+
+// структура, определ€юща€ выходные аттрибуты
+out vs_output
+{
+    vec2 pos;
+} v_out;
+
+uniform mat4 mvp;
+
+void main()
+{
+	gl_Position = mvp * vec4(in_pos, 0, 1);
+    v_out.pos = in_pos;
+}

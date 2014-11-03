@@ -1,0 +1,18 @@
+#version 330
+
+in vec3 in_pos;
+
+out vs_output
+{
+    vec3 pos;
+} v_out;
+
+uniform mat4 mvp;
+
+void main()
+{
+    vec4 pos = vec4(in_pos, 1);
+	gl_Position = mvp * pos;
+    
+    v_out.pos = in_pos;	
+}

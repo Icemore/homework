@@ -1,0 +1,22 @@
+#version 330
+
+in vs_output
+{
+   vec4 norm;
+} f_in;
+
+uniform bool is_wireframe;
+
+out vec3 o_color;
+
+void main()
+{
+    if(is_wireframe) {
+        o_color = vec3(1, 0, 0);
+    }
+    else {
+        float col = f_in.norm.y;
+        o_color = vec3(col, col, col);
+    }
+}
+

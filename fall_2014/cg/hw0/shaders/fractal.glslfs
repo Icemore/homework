@@ -1,0 +1,32 @@
+#version 330
+
+// ¬ход с вершинного шейдера
+in vs_output
+{
+   vec2 pos;
+} f_in;
+
+// ќдин выходной аттрибут - цвет, который будет записан в буфер экрана
+out vec3 o_color;
+
+const int iterations = 60;
+
+void main()
+{
+    vec2 z = f_in.pos;
+    float arg = z.x * z.x + z.y * z.y;
+    int cnt = 0;
+    
+    while(arg < 4 && cnt < iterations) {
+        z = vec2(z.x * z.x - z.y * z.y + f_in.pos.x, 2 * z.x * z.y + f_in.pos.y);
+        arg = z.x * z.x + z.y * z.y;
+        ++cnt;
+    }
+
+    if(cnt < iterations) {
+        o_color = vec3(float(cnt) / iterations * 4 / 3, 0, 0);
+    }
+    else {
+        o_color = vec3(0, 0, 0);
+    }
+}
