@@ -63,26 +63,50 @@ int main(int argc, char** argv) {
     dest.sin_family = AF_INET;
     dest.sin_addr.s_addr = inet_addr(dest_addr.c_str());
 
-    if(sendto(sockfd, &msg, sizeof(msg), 0, (sockaddr*)&dest, sizeof(sockaddr)) == -1) {
+    int send_cnt = sendto(sockfd, &msg, sizeof(msg), 0, (sockaddr*)&dest, sizeof(sockaddr));
+    if(send_cnt == -1) {
         perror("send");
         exit(EXIT_FAILURE);
     }
+
+    if(send_cnt != sizeof(msg)) {
+        fprintf(stderr, "failed to send full packet\n");
+        exit(EXIT_FAILURE);
+    }
+
+    // set timeout
+    timeval tv;
+    tv.tv_sec = 20;
+    tv.tv_usec = 0;
+    setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
     
     char buffer[sizeof(iphdr) + sizeof(icmp_timestamp_mgs)];
     socklen_t addrlen = sizeof(dest);
-    if(recvfrom(sockfd, &buffer, sizeof(buffer), 0, (sockaddr*)&dest, &addrlen) == -1) {
+
+    int recv_cnt = recvfrom(sockfd, &buffer, sizeof(buffer), 0, (sockaddr*)&dest, &addrlen);
+
+    if(recv_cnt == -1) {
         perror("recv");
         exit(EXIT_FAILURE);
     }
-    else {
-        icmp_timestamp_mgs &answer = *(icmp_timestamp_mgs*)(buffer + sizeof(iphdr)); 
 
-        std::cout << "My time: " << my_time << std::endl;
-        std::cout << "Dest time: " << ntohl(answer.receive) << std::endl;
-        
-        int64_t delta = (int64_t) my_time - ntohl(answer.receive);
-        std::cout << "Time delta: " << delta / 1000 << "s " << abs(delta) % 1000 << "ms" << std::endl;
+    if(recv_cnt != sizeof(buffer)) {
+        fprintf(stderr, "failed to receive full packet\n");
+        exit(EXIT_FAILURE);
     }
+
+    icmp_timestamp_mgs &answer = *(icmp_timestamp_mgs*)(buffer + sizeof(iphdr)); 
+
+    if(answer.hdr.type != ICMP_TIMESTAMPREPLY) {
+        fprintf(stderr, "received wrong message\n");
+        exit(EXIT_FAILURE);
+    }
+
+    std::cout << "My time: " << my_time << std::endl;
+    std::cout << "Dest time: " << ntohl(answer.receive) << std::endl;
+
+    int64_t delta = (int64_t) my_time - ntohl(answer.receive);
+    std::cout << "Time delta: " << delta / 1000 << "s " << abs(delta) % 1000 << "ms" << std::endl;
 
     close(sockfd);
     return 0;
