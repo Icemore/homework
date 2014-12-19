@@ -32,6 +32,18 @@ struct icmp_timestamp_mgs {
     __be32 transmit;
 };
 
+int64_t calc_delta(icmp_timestamp_mgs const & msg, uint32_t my_receive) {
+    int32_t other_receive = ntohl(msg.receive);
+    int32_t other_transmit = ntohl(msg.transmit);
+    int32_t my_transmit = ntohl(msg.originate);
+
+    int64_t path_time1 = (int64_t)other_receive - my_transmit;
+    int64_t path_time2 = (int64_t)my_receive - other_transmit;
+    int64_t path_time = (path_time1 + path_time2) / 2;
+
+    return (int64_t)other_receive - my_transmit - path_time;
+}
+
 int main(int argc, char** argv) {
     if(argc < 2) {
         std::cerr << "Specify destination ip address" << std::endl;
@@ -76,7 +88,7 @@ int main(int argc, char** argv) {
 
     // set timeout
     timeval tv;
-    tv.tv_sec = 20;
+    tv.tv_sec = 5;
     tv.tv_usec = 0;
     setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
     
@@ -84,6 +96,7 @@ int main(int argc, char** argv) {
     socklen_t addrlen = sizeof(dest);
 
     int recv_cnt = recvfrom(sockfd, &buffer, sizeof(buffer), 0, (sockaddr*)&dest, &addrlen);
+    uint32_t receive_time = get_time();
 
     if(recv_cnt == -1) {
         perror("recv");
@@ -102,10 +115,7 @@ int main(int argc, char** argv) {
         exit(EXIT_FAILURE);
     }
 
-    std::cout << "My time: " << my_time << std::endl;
-    std::cout << "Dest time: " << ntohl(answer.receive) << std::endl;
-
-    int64_t delta = (int64_t) my_time - ntohl(answer.receive);
+    int64_t delta = calc_delta(answer, receive_time);
     std::cout << "Time delta: " << delta / 1000 << "s " << abs(delta) % 1000 << "ms" << std::endl;
 
     close(sockfd);
