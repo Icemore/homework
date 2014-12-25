@@ -1,0 +1,109 @@
+\documentclass[10pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[russian,english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{enumerate}
+\usepackage[margin=2cm]{geometry}
+
+
+\begin{document}
+
+\title{Домашняя работа 4}
+\author{Антон Афанасьев}
+\maketitle
+
+<<libraries, include=FALSE>>=
+library(lattice)
+library(latticeExtra)
+library(MASS)
+library(e1071)
+library(ROCR) # performance(), prediction()
+library(nnet) # multinom()
+library(snow)
+
+set.seed(1320)
+@
+
+\begin{enumerate}
+{\Large \item Trashcor}
+
+<<generate>>=
+generate.df = function(nrow, npred) {
+  m = matrix(rnorm(nrow * npred), nrow=nrow)
+  df = data.frame(rnorm(nrow), m)
+  names(df)[1] = "resp"
+  df
+}
+@
+
+<<correlations>>=
+df.full = generate.df(100, 10000)
+df.train = df.full[1:50,]
+df.test = df.full[51:100,]
+
+corrs = sapply(2:ncol(df.train), 
+               function(i) {
+                 cols = df.train[c(1, i)]
+                 cor.mat = cor(cols)
+                 cor.mat[1, 2]
+                 })
+
+idx = order(-abs(corrs))
+corrs[idx[1:20]]
+@
+Видим, что есть сильно коррелирующие признаки. Строим по ним линейную модель.
+
+<<linear.model>>=
+cor.formula = as.formula(paste("resp ~", 
+                    paste(colnames(df.train)[idx[1:20]+1], collapse = "+")))
+
+df = subset(df.train, select=c(1, idx[1:20]+1))
+
+fit = lm(cor.formula, data = df)
+summary(fit)
+
+tune(lm, cor.formula, data = df, 
+     tunecontrol = tune.control(sampling = "cross", cross = nrow(df)))
+@
+
+Проверим на тестовом наборе.
+
+<<rse.test>>=
+tune(lm, cor.formula, data = df, 
+     tunecontrol = tune.control(sampling="fix"), validation.x = df.test)
+@
+Видим, что на тестовой выборке ошибка большая, хотя кроссвалидация говорила, что все нормально.
+
+
+Сделаем нормальную кросс-валидацию -- включаем отбор признаков в процесс обучения. Так как leave-one-out в сочетании с подсчетом корреляций занимает кучу времени, попробуем распараллелить хотя бы вычисление корреляций предикторов. 
+<<correct>>=
+cl = makeCluster(4, type="SOCK")
+
+my.learner = function(formula, data, subset=NULL, ...) {
+
+  if(is.null(subset)) subset = 1:nrow(data)
+  corrs = parSapply(cl, 2:ncol(data[subset,]), 
+               function(i) {
+                 cols = data[subset, c(1, i)]
+                 cor.mat = cor(cols)
+                 cor.mat[1, 2]
+                 })
+
+  idx = order(-abs(corrs))
+  cor.formula = as.formula(paste("resp ~", 
+                    paste(colnames(data)[idx[1:20]+1], collapse = "+")))
+  
+  lm(cor.formula, data = data, subset=subset, ...)
+}
+tune(my.learner, resp~., data = df.train,
+     tunecontrol = tune.control(sampling = "cross", cross = nrow(df.train)))
+
+stopCluster(cl)
+@
+
+С правильной кросс-валидацией видно, что на самом деле ошибка большая.
+\end{enumerate}
+\end{document}

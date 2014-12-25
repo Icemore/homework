@@ -1,0 +1,146 @@
+\documentclass[10pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[russian,english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{enumerate}
+\usepackage[margin=2cm]{geometry}
+
+
+\begin{document}
+
+\title{Домашняя работа 3}
+\author{Антон Афанасьев}
+\maketitle
+
+<<libraries, include=FALSE>>=
+library(lattice)
+library(latticeExtra)
+library(MASS)
+library(e1071)
+library(ROCR) # performance(), prediction()
+library(nnet) # multinom()
+
+set.seed(1320)
+@
+
+\begin{enumerate}
+{\Large \item Seeds}
+
+Загружаем данные, и делаем сразу тестовую и тренировочную выборки.
+<<data.load>>=
+df = read.table("C:\\work\\au\\statistical learning\\materials\\hw\\data3\\seeds_dataset.txt")
+
+names(df) = c("area", "perimeter", "compact", "length", "width", 
+              "assymetry", "groove", "variety")
+df$variety = factor(df$variety, labels=c("Kama", "Rosa", "Canadian"))
+
+train.idx = sample(nrow(df), size = nrow(df) * 0.6)
+df.train = df[train.idx,]
+df.test = df[-train.idx,]
+
+@
+
+
+Посмотрим на данные.
+
+<<plots>>=
+marginal.plot(df, groups = df$variety)
+splom(df, groups=df$variety)
+
+@
+Ничего криминального не видно. Попробуем построить мультиноминальную регрессию.
+
+<<multinom>>=
+mlt = multinom(variety ~ ., data = df, maxit = 600, trace = FALSE)
+summary(mlt)
+@
+
+Проверим ее кроссвалидацией и train-test. Кросс-валидация получается неустойчивая, поэтому используем leave-one-out.
+<<multinom.test>>=
+tune(multinom, variety ~ ., data = df, maxit = 600, trace = FALSE, 
+     tunecontrol = tune.control(sampling = "cross", cross = nrow(df)))
+mlt.fit = multinom(variety ~ ., data = df.train, maxit = 600, trace = FALSE)
+summary(mlt.fit)
+mlt.pred = predict(mlt.fit, df.test)
+mlt.t = table(predicted = mlt.pred, actual = df.test$variety)
+mlt.t
+chisq.test(mlt.t)
+@
+
+Очевидно, что куча предикторов зависима (некоторе даже по явной формуле). Попробуем повыкидывать предикторы автоматически.
+<<aic>>=
+mlt.aic = stepAIC(mlt)
+tune(multinom, mlt.aic$call$formula, data = df, maxit = 600, trace = FALSE, 
+     tunecontrol = tune.control(sampling = "cross", cross = nrow(df)))
+mlt.aic.fit = multinom(mlt.aic$call$formula, data = df.train, maxit = 600, trace = FALSE)
+summary(mlt.aic.fit)
+mlt.aic.pred = predict(mlt.aic.fit, df.test)
+mlt.aic.t = table(predicted = mlt.aic.pred, actual = df.test$variety)
+mlt.aic.t
+chisq.test(mlt.aic.t)
+@
+
+Кажется получилось довольно хорошо.
+
+Попробуем еще построить lda и qda модели на всех предикторах и на отобраных для мультинома.
+<<lda.qda>>=
+simple.predict.da <- function(... ) predict(...) $class
+
+tune(lda, variety ~ . , data = df, predict.func = simple.predict.da, 
+     tunecontrol = tune.control(sampling = "cross", cross = nrow(df)))
+tune(qda, variety ~ . , data = df, predict.func = simple.predict.da, 
+     tunecontrol = tune.control(sampling = "cross", cross = nrow(df)))
+
+tune(lda, mlt.aic$call$formula , data = df, predict.func = simple.predict.da, 
+     tunecontrol = tune.control(sampling = "cross", cross = nrow(df)))
+tune(qda, mlt.aic$call$formula , data = df, predict.func = simple.predict.da, 
+     tunecontrol = tune.control(sampling = "cross", cross = nrow(df)))
+@
+
+Получается не лучше.
+
+
+{\Large \item Bandplot}
+
+<<bandplot>>=
+panel.bands <- function(x, y, upper, lower, fill, col, subscripts, ...) {
+  upper <- upper[subscripts]
+  lower <- lower[subscripts]
+  
+  panel.polygon(c(x, rev(x)), c(upper, rev(lower)),
+                col = fill, border = TRUE,
+                ...)
+}
+
+bandplot <- function(formula, data, upper, lower, groups, ...) {  
+  xyplot(formula, data=data, 
+         upper = upper, lower = lower, groups = groups,
+         panel = function(x, y, ...){
+           panel.superpose(x, y, panel.groups = panel.bands, type='l', col='gray', ...)
+           panel.xyplot(x, y, type='b', cex=0.6, lty=1, ...)
+         }, 
+         prepanel = function(upper, lower, ...) {
+           prep = prepanel.default.xyplot(...)
+           prep$ylim = c(min(lower), max(upper))
+           prep
+         },
+         ...
+  )
+  
+}
+
+df <- data.frame(x = 1:20,
+                 y = rnorm(20))
+
+df$lower = df$y - runif(20)
+df$upper = 2 * df$y - df$lower
+df$groups = rbinom(20, 1, 0.5)
+bandplot(y ~ x, data = df, upper = df$upper, lower = df$lower, groups = df$groups)
+@
+
+
+\end{enumerate}
+\end{document}

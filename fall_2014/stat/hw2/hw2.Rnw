@@ -1,0 +1,164 @@
+\documentclass[10pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[russian,english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{enumerate}
+\usepackage[margin=2cm]{geometry}
+
+
+\begin{document}
+
+\title{Домашняя работа 2}
+\author{Антон Афанасьев}
+\maketitle
+
+<<libraries, include=FALSE>>=
+library(lattice)
+library(latticeExtra)
+library(MASS)
+library(e1071)
+set.seed(1328)
+
+panel.lmpolyline <- function(x, y, groups = NULL,
+    degree = 1, col.line = par.line$col,
+    lty = par.line$lty, lwd = par.line$lwd,
+    alpha = par.line$alpha, ... , identifier = "lmpolyline" ) {
+    
+    x <- as.numeric(x)
+    y <- as.numeric(y)
+    if (! is.null(groups)) {
+        par.line <- trellis.par.get("superpose.line" )
+        panel.superpose(x = x, y = y, groups = groups,
+            degree = degree, col.line = col.line,
+            lty = lty, lwd = lwd, alpha = alpha,
+            panel.groups = sys.function(),
+            ...)
+    } else {
+        if (length(x) > degree) {
+            l <- lm(y ~ poly(x, degree = degree))
+            par.line <- trellis.par.get("plot.line" )
+            panel.curve(predict(l, list(x = x)),
+                from = min(x), to = max(x),
+                col.line = col.line, lty = lty,
+                lwd = lwd, alpha = alpha,
+                ..., identifier = identifier)
+        }
+    }
+}
+@
+
+\begin{enumerate}
+\item[1.] Teengambling
+
+<<first graphs>>=
+df = read.table("C://work//au//statistical learning//materials//hw/data2//teengambling.txt")
+df$sex = factor(df$sex, labels=c("Male", "Female"))
+@
+
+Попробуем посмотреть по данные разделив людей по полу.
+<<marginal.plot>>=
+marginal.plot(df, data = df, groups = df$sex)
+@
+
+Похоже, что по этим данным женщины не играют считай вообще. В этой связи быть мужчиной выглядит "отягчающим обстоятельством". Поставим соответствующие контрасты:
+<<contracts>>=
+contrasts(df$sex) = c(1, 0)
+@
+
+Построим модель, в которой все будет во взаимодействии с полом:
+<<models>>=
+fit1 = lm(gamble ~ sex*(income + status + verbal), data = df)
+summary(fit1)
+@
+Попробуем автоматически выкинуть лишнее  
+<<>>=
+fit.aic = stepAIC(fit1)
+summary(fit.aic)
+@
+AIC оставил verbal, при том что по t-критерию он не значимый. Попробуем и его убрать.
+<<>>=
+fit2 = lm(gamble ~ sex * income, data = df)
+summary(fit2)
+
+AIC(fit1, fit.aic, fit2)
+BIC(fit1, fit.aic, fit2)
+@
+
+Не знаю кому верить. Попробуем еще повалидировать модели.
+<<cross valid>>=
+tune(lm, fit2$call$formula, data = df, 
+     tunecontrol=tune.control(sampling = "cross", cross = nrow(df)))
+tune(lm, fit.aic$call$formula, data = df, 
+     tunecontrol=tune.control(sampling = "cross", cross = nrow(df)))
+@
+
+Похоже, что все-таки verbal имеет смысл.
+
+Итого, играют мужчины, и чем больше у них доход, тем больше. При этом люди с большим уровнем verbal score вроде бы играют меньше.
+График иллюстрирующий первое утверждение на следующей странице.
+<<final graph>>=
+xyplot(gamble ~ income, groups = sex, data = df, 
+       par.settings = simpleTheme(pch=19), auto.key = list(columns=2, border = TRUE)) + 
+  layer_(panel.lmpolyline(..., degree=2))
+@
+
+
+\item[2.] Университеты
+
+<<>>=
+df <- read.csv2(file = "C:\\work\\au\\statistical learning\\materials\\hw\\data2\\I.csv" )
+df <- subset(df, select = c(PPIND, AVRCOMB,
+  NEW10, FULLTIME, IN_STATE, ROOM, ADD_FEE,
+  PH_D, GRADUAT, SAL_FULL, NUM_FULL))
+df$PPIND <- factor(df$PPIND, labels = c("Public", "Private" ))
+df <- na.exclude(df)
+df.priv <- subset(df, PPIND == "Private")
+@
+
+<<>>=
+fit1 = lm(NEW10 ~ FULLTIME + log(IN_STATE) + log(ROOM) + log(ADD_FEE) + PH_D + 
+            GRADUAT + log(SAL_FULL) + NUM_FULL, data = df.priv)
+summary(fit1)
+fit2.aic = stepAIC(fit1)
+summary(fit2.aic)
+@
+Кажется, что AIC оставил слишком много незначимых признаков. Уберем их и посмотрим на результат.
+<<>>=
+fit3 = update(fit2.aic, . ~ . -PH_D - log(ADD_FEE))
+summary(fit3)
+BIC(fit3, fit2.aic)
+
+
+tune(lm, fit2.aic$call$formula, data = df.priv, 
+     tunecontrol = tune.control(sampling = "cross", cross = 17))
+tune(lm, fit3$call$formula, data = df.priv, 
+     tunecontrol = tune.control(sampling = "cross", cross = 17))
+@
+
+
+Выходит, что для частных университетов поступают туда где больше студентов, легче выпуститься, и при этом где берут больше денег за обучение и меньше денег за общагу. В отличии от государственных университетов, где шли туда, где платить надо меньше.
+
+Попробуем сделать модель для частных и государственных одновременно.
+<<>>=
+contrasts(df$PPIND) = c(0, 1)
+
+fit.all = lm(NEW10 ~ PPIND*(FULLTIME + log(IN_STATE) + log(ADD_FEE) + 
+                              ROOM + NUM_FULL) + GRADUAT, data = df)
+summary(fit.all)
+fit.all.aic = stepAIC(fit.all)
+summary(fit.all.aic)
+@
+
+Проинтерпретировать можно попытаться так:
+\begin{itemize}
+  \item в частные университеты отличников поступает меньше, чем в государственные
+  \item поступают туда, откуда проще выпуститься
+  \item в гос университетах поступают туда где дешевле, в частных туда где дороже
+\end{itemize}
+\end{enumerate}
+
+
+\end{document}
