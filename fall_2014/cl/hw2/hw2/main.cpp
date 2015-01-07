@@ -82,7 +82,7 @@ public:
 
         // read result
         std::vector<float> output(input.size());
-        queue.enqueueReadBuffer(dev_output, CL_TRUE, 0, sizeof(int) * input.size(), &output[0]);
+        queue.enqueueReadBuffer(dev_output, CL_TRUE, 0, sizeof(float) * input.size(), &output[0]);
 
         print_res(os, output);
     }
