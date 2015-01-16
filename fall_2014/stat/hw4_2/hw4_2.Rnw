@@ -1,0 +1,151 @@
+\documentclass[10pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[russian,english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{enumerate}
+\usepackage[margin=2cm]{geometry}
+
+
+\begin{document}
+
+\title{Домашняя работа 4}
+\author{Антон Афанасьев}
+\maketitle
+
+<<libraries, include=FALSE>>=
+library(lattice)
+library(latticeExtra)
+library(MASS)
+library(e1071)
+library(boot)
+library(mvtnorm)
+set.seed(1320)
+@
+
+\begin{enumerate}
+{\Large \item QDA boot}
+
+Считаем параметры для бутстрапа; ковариации считаем по каждому классу отдельно.
+<<defs >>=
+qda.model <- function(data, groups) {
+  data <- as.matrix(data)
+  means <- aggregate(data, list(groups = groups), mean)
+  data <- data - as.matrix(means[match(groups, means$groups), -1])
+  list(cov = by(data, groups, cov), means = means[,-1, drop = FALSE])
+}
+
+
+make.data <- function(data, groups, qda.model, size = nrow(data), groups.name = "Species" ) {
+  ind <- sample(seq_along(levels(groups)), size = size, replace = TRUE)
+  
+  res <- data.frame(name = factor(levels(groups)[ind], levels = levels(groups)))
+  names(res) <- groups.name
+  
+  mx <- qda.model$means[ind, ]
+  for(i in seq_along(levels(groups))) {
+    cur = which(ind == i)
+    mx[cur,] = mx[cur,] + rmvnorm(length(cur), sigma = qda.model$cov[[i]])
+  }
+  
+  colnames(mx) <- colnames(qda.model$cov[[1]])
+  res <- cbind(res, as.data.frame(mx))
+  rownames(res) <- NULL
+  res
+}
+
+@
+Вычисляем параметры и смотрим, что по ним генерируется.
+<<use>>=
+model <- qda.model(subset(iris, select = -Species), iris$Species)
+res <- make.data(iris, iris$Species, model)
+splom(res, groups = res$Species)
+@
+
+Делаем бутстрап.
+<<boot>>=
+my.qda <- function(x, data, ... ) {
+  out <- qda(x, data, ...)
+  out$data <- data
+  out
+}
+simple.predict.da <- function(... ) predict(...) $class
+
+fun = function(data) {
+  tn = tune(my.qda, Species ~ ., data = data, 
+            predict.func = simple.predict.da,
+            tunecontrol = tune.control(sampling = "fix", 
+                                       fix = 1/2))
+  tn$best.performance
+}
+ran.gen = function(data, mle, ..., size = 500) {
+  make.data(data, mle$groups, mle$qda.model, ...)
+}
+
+b = boot(iris, fun, R = 999, sim = "parametric",
+         ran.gen = ran.gen, mle = list(groups = iris$Species,
+                                       qda.model = model))
+plot(b)
+boot.ci(b, type="perc")
+@
+
+{\Large \item boot.ci}
+
+Будем считать доверительные интервалы для коэффициентов модели для частных университетов.
+<<>>=
+df <- read.csv2(file = "C:\\work\\au\\statistical learning\\materials\\hw\\data2\\I.csv" )
+df <- subset(df, select = c(PPIND, AVRCOMB,
+  NEW10, FULLTIME, IN_STATE, ROOM, ADD_FEE,
+  PH_D, GRADUAT, SAL_FULL, NUM_FULL))
+df$PPIND <- factor(df$PPIND, labels = c("Public", "Private" ))
+df <- na.exclude(df)
+df.priv <- subset(df, PPIND == "Private")
+@
+
+Строим самую адекватную модель из тех, что удалось получить во второй домашке.
+
+<<>>=
+fit = lm(formula = NEW10 ~ FULLTIME + log(IN_STATE) + GRADUAT, data = df.priv)
+@
+
+<<>>=
+boot_fun = function(data, subset, formula) {
+  fit = lm(formula, data = data[subset,]) 
+  coef(fit)
+}
+
+b = boot(df.priv, boot_fun, R=999, formula = fit$call$formula)
+b
+@
+Посмотрим на нормальность оценок.
+\pagebreak
+<<>>=
+plot(b, index = 1)
+@
+\pagebreak
+<<>>=
+plot(b, index = 2)
+@
+\pagebreak
+<<>>=
+plot(b, index = 3)
+@
+\pagebreak
+<<>>=
+plot(b, index = 4)
+@
+
+Хм, ни одна из них не выглядит очень уж нормальной. Строим соответствующие интервалы.
+
+<<>>=
+boot.ci(b, type="perc", index=1)
+boot.ci(b, type="perc", index=2)
+boot.ci(b, type="perc", index=3)
+boot.ci(b, type="perc", index=4)
+@
+
+
+\end{enumerate}
+\end{document}
